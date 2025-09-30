@@ -1,0 +1,15 @@
+:root {--color-accent: rgb(42, 116, 143);
+--color-accent-inverted: rgb(255 208 0);
+--color-link: var(--color-accent);
+--color-link-inverted: var(--color-accent-inverted);
+--color-text: rgb(0 0 0);
+--color-text-inverted: rgb(255 255 255);
+--color-background-header: lightgrey;
+--color-background-page: rgb(235 235 235);
+--header-font-size: 30px;
+--subheader-font-size: 24px;
+--list-font-size: 20px;
+--header-font-style: bold;
+--text-align: center;
+--text-align-list: left;
+}
