@@ -4,6 +4,7 @@ h1 {
     text-align: var(--text-align);
     font-size: var(--font-size-header);
     font-style: var(--font-style-header);
+    font-family: var(--header-font-family);
 }
 
 h2 {
@@ -12,6 +13,7 @@ h2 {
     text-align: var(--text-align);
     font-size: var(--font-size-subheader);
     font-style: var(--font-style-header);
+    font-family: var(--header-font-family);
 }
 
 ul {
@@ -40,4 +42,18 @@ dd {
 
 a {
     color: var(--color-link);
+}
+
+body {
+    background-color: var(--color-background-page);
+    color: var(--color-text);
+    font-family: var(--body-font-family);
+}
+
+svg.icon {
+  display: inline;
+  height: 2em;
+  width: 2em;
+  vertical-align: middle;
+  fill: currentColor;
 }
