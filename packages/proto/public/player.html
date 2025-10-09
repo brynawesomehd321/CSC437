@@ -1,25 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="/styles/reset.css" />
         <link rel="stylesheet" href="/styles/tokens.css" />
         <link rel="stylesheet" href="/styles/page.css" />
+        <link rel="stylesheet" href="/styles/table.css" />
         <title>Player</title>
     </head>
     <body>
-        <h1>
-            <svg class="icon">
-                <use href="/icons/base.svg#icon-player" />
-            </svg>
-            Player Attributes
-        </h1>
-        <dl>
-            <dt>Player Name</dt>
-            <dd>Bryn Harper</dd>
-            <dt>Player Number</dt>
-            <dd>64</dd>
-            <dt>Position</dt>
-            <dd>Cutter</dd>
-        </dl>
-        <a href="roster.html">Back to Roster</a>
+        <div class="header">
+            <span>
+                <a href="index.html">
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-home" />
+                    </svg>
+                </a>
+            </span>
+            <h1>Stat Tracker</h1>
+            <p>Bryn Harper</p>
+        </div>
+        <div class="subheader">
+            <h2>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-player" />
+                </svg>
+                Player Profile
+            </h2>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Player Number</th>
+                    <th>Position</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Bryn Harper</td>
+                    <td>64</td>
+                    <td>Cutter</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="subheader">
+            <h2>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-stats" />
+                </svg>
+                Player Stats
+            </h2>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Games Played</th>
+                    <th>Career Scores</th>
+                    <th>Career Blocks</th>
+                    <th>Career Drops</th>
+                    <th>Career Incompletions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>3</td>
+                    <td>15</td>
+                    <td>8</td>
+                    <td>5</td>
+                    <td>7</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="roster.html">
+            <h3>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-team" />
+                </svg>
+                Back to Roster
+            </h3>
+        </a>
     </body>
 </html>

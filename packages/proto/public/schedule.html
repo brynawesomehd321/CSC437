@@ -1,16 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="/styles/reset.css" />
         <link rel="stylesheet" href="/styles/tokens.css" />
         <link rel="stylesheet" href="/styles/page.css" />
+        <link rel="stylesheet" href="/styles/table.css" />
         <title>SLO Motion Schedule</title>
     </head>
     <body>
-        <h2>Games</h2>
-        <ul>
-            <li>
-                <a href="game.html">Game 1</a>
-            </li>
-        </ul>
+        <div class="header">
+            <span>
+                <a href="index.html">
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-home" />
+                    </svg>
+                </a>
+            </span>
+            <h1>Stat Tracker</h1>
+            <p>Bryn Harper</p>
+        </div>
+        <div class="subheader">
+            <h2>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-game" />
+                </svg>
+                SLO Motion Schedule
+            </h2>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Tournament</th>
+                    <th>Date</th>
+                    <th>Opponent</th>
+                    <th>Location</th>
+                    <th>Result</th>
+                    <th>Game Stats</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>SBI</td>
+                    <td>2024-01-15</td>
+                    <td>UCSB Burning Skirts</td>
+                    <td>Home</td>
+                    <td>W 21-14</td>
+                    <td>
+                        <a href="game.html">
+                            <svg class="icon">
+                                <use href="/icons/base.svg#icon-stats" />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sectionals</td>
+                    <td>2024-01-22</td>
+                    <td>UCI Grass Ninjas</td>
+                    <td>Away</td>
+                    <td>L 10-17</td>
+                </tr>
+                <tr>
+                    <td>Regionals</td>
+                    <td>2024-01-29</td>
+                    <td>UCSD Dragon Coalition</td>
+                    <td>Home</td>
+                    <td>W 28-7</td>
+                </tr>
+                <tr>
+                    <td>Nationals</td>
+                    <td>2024-02-05</td>
+                    <td>UCSC</td>
+                    <td>Away</td>
+                    <td>W 14-20</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="team.html">
+            <h3>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-team" />
+                </svg>
+                Back to Team
+            </h3>
+        </a>
     </body>
 </html>

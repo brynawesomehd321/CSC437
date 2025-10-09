@@ -1,52 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="/styles/reset.css" />
         <link rel="stylesheet" href="/styles/tokens.css" />
         <link rel="stylesheet" href="/styles/page.css" />
+        <link rel="stylesheet" href="/styles/table.css" />
         <title>Stats</title>
     </head>
     <body>
-        <h2>
-            <svg class="icon">
-                <use href="/icons/base.svg#icon-stats" />
-            </svg>
-            Team Stats
-        </h2>
-        <dl>
-            <dt>Team Name</dt>
-            <dd>SLO Motion</dd>
-            <dt>Total Scores</dt>
-            <dd>76</dd>
-            <dt>Total Blocks</dt>
-            <dd>29</dd>
-            <dt>Total Drops</dt>
-            <dd>12</dd>
-        </dl>
-        <h2>
-            <svg class="icon">
-                <use href="/icons/base.svg#icon-stats" />
-            </svg>
-            Player Stats
-        </h2>
-        <div id="bryn">
-            <h3>Bryn Harper</h3>
-            <dl>
-                <dt>Total Scores</dt>
-                <dd>10</dd>
-                <dt>Total Blocks</dt>
-                <dd>4</dd>
-                <dt>Total Drops</dt>
-                <dd>3</dd>
-            </dl>
-            <h3>Tucker Donahue</h3>
-            <dl>
-                <dt>Total Scores</dt>
-                <dd>9</dd>
-                <dt>Total Blocks</dt>
-                <dd>2</dd>
-                <dt>Total Drops</dt>
-                <dd>3</dd>
-            </dl>
+        <div class="header">
+            <span>
+                <a href="index.html">
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-home" />
+                    </svg>
+                </a>
+            </span>
+            <h1>Stat Tracker</h1>
+            <p>Bryn Harper</p>
         </div>
+        <div class="subheader">
+            <h2>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-stats" />
+                </svg>
+                Team Stats
+            </h2>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Total Scores</th>
+                    <th>Total Blocks</th>
+                    <th>Total Drops</th>
+                    <th>Total Incompletions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Name"><a href="team.html">SLO Motion</a></td>
+                    <td data-label="Total Scores">61</td>
+                    <td data-label="Total Blocks">22</td>
+                    <td data-label="Total Drops">30</td>
+                    <td data-label="Total Incompletions">45</td>
+                </tr>
+                <tr>
+                    <td data-label="Name">Burning Skirts</td>
+                    <td data-label="Total Scores">44</td>
+                    <td data-label="Total Blocks">30</td>
+                    <td data-label="Total Drops">51</td>
+                    <td data-label="Total Incompletions">62</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="subheader">
+            <h2>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-stats" />
+                </svg>
+                Player Stats
+            </h2>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Scores</th>
+                    <th>Blocks</th>
+                    <th>Drops</th>
+                    <th>Incompletions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Name"><a href="player.html">Bryn Harper</a></td>
+                    <td data-label="Scores">15</td>
+                    <td data-label="Blocks">5</td>
+                    <td data-label="Drops">2</td>
+                    <td data-label="Incompletions">1</td>
+                </tr>
+                <tr>
+                    <td data-label="Name">Tucker Donahue</td>
+                    <td data-label="Scores">10</td>
+                    <td data-label="Blocks">6</td>
+                    <td data-label="Drops">3</td>
+                    <td data-label="Incompletions">0</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="team.html">
+            <h3>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-team" />
+                </svg>
+                Back to Team
+            </h3>
+        </a>
     </body>
 </html>

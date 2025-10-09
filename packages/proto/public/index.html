@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <link rel="stylesheet" href="/styles/reset.css" />
         <link rel="stylesheet" href="/styles/tokens.css" />
         <link rel="stylesheet" href="/styles/page.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,16 +14,27 @@
         <title>My Teams</title>
     </head>
     <body>
-        <h1>
-            <svg class="icon">
-                <use href="/icons/base.svg#icon-home" />
-            </svg>
-            My Teams
-        </h1>
-        <ul>
-            <li>
-                <a href="team.html">SLO Motion</a>
-            </li>
-        </ul>
+        <div class="header">
+            <span>
+                <a href="index.html">
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-home" />
+                    </svg>
+                </a>
+            </span>
+            <h1>Stat Tracker</h1>
+            <p>Bryn Harper</p>
+        </div>
+        <div class="subheader">
+            <h1>My Teams</h1>
+        </div>
+        <div class="grid">
+            <a href="team.html">
+                <h2>SLO Motion</h2>
+            </a>
+            <h2>Burning Skirts</h2>
+            <h2>Pie Queens</h2>
+            <h2>Grass Ninjas</h2>
+        </div>
     </body>
 </html>
