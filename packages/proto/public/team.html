@@ -7,6 +7,7 @@
         <title>Team</title>
     </head>
     <body>
+        <script src="/scripts/darkmode.js"></script>
         <div class="header">
             <span>
                 <a href="index.html">
@@ -16,7 +17,10 @@
                 </a>
             </span>
             <h1>Stat Tracker</h1>
-            <p>Bryn Harper</p>
+            <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
+                <input type="checkbox" autocomplete="off"/>
+                Dark mode
+            </label>
         </div>
         <div class="subheader">
             <h2>

@@ -53,7 +53,7 @@ svg.icon {
   height: 2em;
   width: 2em;
   vertical-align: middle;
-  fill: white;
+  fill: var(--color-icon);
 }
 
 .header {
@@ -94,7 +94,7 @@ svg.icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: white;
+        background-color: var(--color-grid);
         color: var(--color-text);
         margin: var(--margin);
         padding: var(--margin);
@@ -113,7 +113,7 @@ svg.icon {
     grid-column: start / end;
     align-items: baseline;
     justify-content: space-between;
-    background-color: white;
+    background-color: var(--color-grid);
     color: var(--color-text);
     margin: var(--margin);
     padding: var(--padding);
@@ -127,4 +127,18 @@ svg.icon {
     align-items: baseline;
     justify-content: center;
     background-color: var(--color-background-subheader);
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-body);
+    font-style: var(--font-style-header);
+    font-family: var(--font-family-body);
+    color: var(--color-header);
+
+    > input {
+        margin-right: 5px;
+    }
 }
