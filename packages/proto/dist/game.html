@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/styles/reset.css" />
+        <link rel="stylesheet" href="/styles/tokens.css" />
+        <link rel="stylesheet" href="/styles/page.css" />
+        <link rel="stylesheet" href="/styles/table.css" />
+        <title>SLO Motion Game 1</title>
+    </head>
+    <body>
+        <script src="/scripts/darkmode.js"></script>
+        <div class="header">
+            <span>
+                <a href="index.html">
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-home" />
+                    </svg>
+                </a>
+            </span>
+            <h1>Stat Tracker</h1>
+            <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
+                <input type="checkbox" autocomplete="off"/>
+                Dark mode
+            </label>
+        </div>
+        <div class="subheader">
+            <h2>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-game" />
+                </svg>
+                Game Details
+            </h2>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Game Time</th>
+                    <th>Date</th>
+                    <th>Opponent</th>
+                    <th>Location</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1:00 PM</td>
+                    <td>2024-01-15</td>
+                    <td>UCSB Burning Skirts</td>
+                    <td>Home</td>
+                    <td>W 21-14</td>
+                </tr>
+        </table>
+        <div class="subheader">
+            <h2>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-stats" />
+                </svg>
+                Game Stats
+            </h2>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Scores</th>
+                    <th>Blocks</th>
+                    <th>Drops</th>
+                    <th>Incompletions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="player.html">Bryn Harper</a></td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Tucker Donahue</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>TEAM TOTAL</td>
+                    <td>5</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+        </table>
+        <a href="schedule.html">
+            <h3>
+                <svg class="icon">
+                    <use href="/icons/base.svg#icon-game" />
+                </svg>
+                Back to Schedule
+            </h3>
+        </a>
+    </body>
+</html>

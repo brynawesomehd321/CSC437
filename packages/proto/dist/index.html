@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/styles/reset.css" />
+        <link rel="stylesheet" href="/styles/tokens.css" />
+        <link rel="stylesheet" href="/styles/page.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <title>My Teams</title>
+    </head>
+    <body>
+        <script src="/scripts/darkmode.js"></script>
+        <div class="header">
+            <span>
+                <a href="index.html">
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-home" />
+                    </svg>
+                </a>
+            </span>
+            <h1>Stat Tracker</h1>
+            <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
+                <input type="checkbox" autocomplete="off"/>
+                Dark mode
+            </label>
+        </div>
+        <div class="subheader">
+            <h1>My Teams</h1>
+        </div>
+        <div class="grid">
+            <a href="team.html">
+                <h2>SLO Motion</h2>
+            </a>
+            <h2>Burning Skirts</h2>
+            <h2>Pie Queens</h2>
+            <h2>Grass Ninjas</h2>
+        </div>
+    </body>
+</html>
