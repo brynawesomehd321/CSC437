@@ -5,9 +5,12 @@
         <link rel="stylesheet" href="/styles/tokens.css" />
         <link rel="stylesheet" href="/styles/page.css" />
         <title>SLO Motion Roster</title>
+      <script type="module" crossorigin src="/assets/roster-mDgrV4yb.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/state-J0lqo2u5.js">
+      <link rel="modulepreload" crossorigin href="/assets/cardGrid-DuHlKTRd.js">
     </head>
     <body>
-        <script src="/scripts/darkmode.js" defer></script>
+        <script src="/scripts/darkmode.js" defer></script>
         <div class="header">
             <span>
                 <a href="index.html">
@@ -30,22 +33,7 @@
                 SLO Motion Roster
             </h2>
         </div>
-        <div class="grid">
-            <a href="player.html">
-                <h3>Bryn Harper</h3>
-            </a>
-            <h3>Poppy DM</h3>
-            <h3>MJ Hartman</h3>
-            <h3>Megan Wong</h3>
-            <h3>Nora Snyder</h3>
-            <h3>Tucker Donahue</h3>
-            <h3>Molly Sandler</h3>
-            <h3>Charis Gray</h3>
-            <h3>Margo Donahue</h3>
-            <h3>Katherine Jackson</h3>
-            <h3>Soren Harper</h3>
-            <h3>Mackenzie Bice</h3>
-        </div>
+        <card-grid src="data/players.json"></card-grid>
         <a href="team.html">
             <h3>
                 <svg class="icon">

@@ -6,7 +6,8 @@
         <link rel="stylesheet" href="/styles/page.css" />
         <link rel="stylesheet" href="/styles/table.css" />
         <title>Stats</title>
-      <script type="module" crossorigin src="/assets/stats-C8HnpqFm.js"></script>
+      <script type="module" crossorigin src="/assets/stats-Dav8OeJ-.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/state-J0lqo2u5.js">
     </head>
     <body>
         <script src="/scripts/darkmode.js"></script>
@@ -32,7 +33,7 @@
                 Team Stats
             </h2>
         </div>
-        <stat-table src="/data/stats.json"></stat-table>
+        <stat-table src="/data/teamStats.json"></stat-table>
         <div class="subheader">
             <h2>
                 <svg class="icon">
@@ -41,22 +42,7 @@
                 Player Stats
             </h2>
         </div>
-        <stat-table>
-            <stat-row>
-                <dt>Soren Harper</dt>
-                <dd>1</dd>
-                <dd>2</dd>
-                <dd>3</dd>
-                <dd>4</dd>
-            </stat-row>
-            <stat-row>
-                <dt>Bryn Harper</dt>
-                <dd>1</dd>
-                <dd>2</dd>
-                <dd>3</dd>
-                <dd>4</dd>
-            </stat-row>
-        </stat-table>
+        <stat-table src="/data/playerStats.json"></stat-table>
         <a href="team.html">
             <h3>
                 <svg class="icon">

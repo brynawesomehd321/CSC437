@@ -12,9 +12,12 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <title>My Teams</title>
+      <script type="module" crossorigin src="/assets/main-mDgrV4yb.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/state-J0lqo2u5.js">
+      <link rel="modulepreload" crossorigin href="/assets/cardGrid-DuHlKTRd.js">
     </head>
     <body>
-        <script src="/scripts/darkmode.js"></script>
+        <script src="/scripts/darkmode.js"></script>
         <div class="header">
             <span>
                 <a href="index.html">
@@ -32,13 +35,6 @@
         <div class="subheader">
             <h1>My Teams</h1>
         </div>
-        <div class="grid">
-            <a href="team.html">
-                <h2>SLO Motion</h2>
-            </a>
-            <h2>Burning Skirts</h2>
-            <h2>Pie Queens</h2>
-            <h2>Grass Ninjas</h2>
-        </div>
+        <card-grid src="data/teams.json"></card-grid>
     </body>
 </html>
