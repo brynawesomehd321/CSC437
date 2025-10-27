@@ -1,8 +1,63 @@
 // src/statTable.ts
 import { html, css, LitElement } from "lit";
 import reset from "./styles/reset.css.ts";
+import { property, state } from "lit/decorators.js";
+
+
+/*
+    let rows = stats.map((row) =>
+        html`
+            <dt>${row.name}</dt>
+        `
+    )
+*/
+
+interface StatRow {
+  name: string;
+  scores: number;
+  blocks: number;
+  drops: number;
+  incompletions: number;
+}
 
 export class StatTableElement extends LitElement {
+    @property()
+    src?: string;
+
+    @state()
+    stats: Array<StatRow> = [];
+
+    connectedCallback() {
+        super.connectedCallback();
+        if (this.src) this.hydrate(this.src);
+    }
+
+    hydrate(src: string) {
+        fetch(src)
+        .then(res => res.json())
+        .then((json: object) => {
+            if(json) {
+                // store the data as @state
+                this.stats = json as Array<StatRow>;
+            }
+        })
+    }
+
+    renderStatRows() {
+        let rows = this.stats.map((row) =>
+        html`
+            <div class="stat-row">
+                <dt>${row.name}</dt>
+                <dd>${row.scores}</dd>
+                <dd>${row.blocks}</dd>
+                <dd>${row.drops}</dd>
+                <dd>${row.incompletions}</dd>
+            </div>
+        `
+        )
+        return rows;
+    }
+
     override render() {
         return html`
         <section class="stat-grid-header">
@@ -13,12 +68,9 @@ export class StatTableElement extends LitElement {
             <h3>Incompletions</h3>
         </section>
         <section class="stat-grid-body">
-            <slot>
-                <dl>
-                    <dt>Bryn Harper</dt>
-                    <dd>10</dd>
-                </dl>
-            </slot>
+            <dl>
+                ${this.renderStatRows()}
+            </dl>
         </section>
         `
     }
@@ -37,6 +89,24 @@ export class StatTableElement extends LitElement {
 
             .stat-grid-body {
                 background-color: var(--color-grid)
+            }
+
+            .stat-row {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr); /* 5 columns */
+                text-align: center;
+                border-bottom: 1px solid var(--color-accent);
+                padding: var(--padding);
+                margin: 0px;
+                transition: background-color 0.3s ease;
+
+                > dt {
+                    font-weight: bold;
+                }
+            }
+
+            .stat-row:hover {
+                background-color: var(--color-hover);
             }
         `
     ];

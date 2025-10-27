@@ -11,14 +11,10 @@
         <script src="/scripts/darkmode.js"></script>
         <script type="module">
             import { StatTableElement } from "/src/statTable.ts";
-            import { StatElement } from "/src/stat.ts";
 
             customElements.define(
                 "stat-table", StatTableElement
             );
-            customElements.define(
-                "stat-row", StatElement
-            )
         </script>
         <div class="header">
             <span>
@@ -42,22 +38,7 @@
                 Team Stats
             </h2>
         </div>
-        <stat-table>
-            <stat-row>
-                <dt>SLO Motion</dt>
-                <dd>20</dd>
-                <dd>19</dd>
-                <dd>14</dd>
-                <dd>34</dd>
-            </stat-row>
-            <stat-row>
-                <dt>Burning Skirts</dt>
-                <dd>18</dd>
-                <dd>7</dd>
-                <dd>15</dd>
-                <dd>22</dd>
-            </stat-row>
-        </stat-table>
+        <stat-table src="/data/teamStats.json"></stat-table>
         <div class="subheader">
             <h2>
                 <svg class="icon">
@@ -66,22 +47,7 @@
                 Player Stats
             </h2>
         </div>
-        <stat-table>
-            <stat-row>
-                <dt>Soren Harper</dt>
-                <dd>1</dd>
-                <dd>2</dd>
-                <dd>3</dd>
-                <dd>4</dd>
-            </stat-row>
-            <stat-row>
-                <dt>Bryn Harper</dt>
-                <dd>1</dd>
-                <dd>2</dd>
-                <dd>3</dd>
-                <dd>4</dd>
-            </stat-row>
-        </stat-table>
+        <stat-table src="/data/playerStats.json"></stat-table>
         <a href="team.html">
             <h3>
                 <svg class="icon">

@@ -15,6 +15,13 @@
     </head>
     <body>
         <script src="/scripts/darkmode.js"></script>
+        <script type="module">
+            import { CardGridElement } from "/src/cardGrid.ts";
+
+            customElements.define(
+                "card-grid", CardGridElement
+            );
+        </script>
         <div class="header">
             <span>
                 <a href="index.html">
@@ -32,13 +39,6 @@
         <div class="subheader">
             <h1>My Teams</h1>
         </div>
-        <div class="grid">
-            <a href="team.html">
-                <h2>SLO Motion</h2>
-            </a>
-            <h2>Burning Skirts</h2>
-            <h2>Pie Queens</h2>
-            <h2>Grass Ninjas</h2>
-        </div>
+        <card-grid src="data/teams.json"></card-grid>
     </body>
 </html>
