@@ -26,33 +26,33 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var userRouter_exports = {};
-__export(userRouter_exports, {
-  default: () => userRouter_default
+var teamsRouter_exports = {};
+__export(teamsRouter_exports, {
+  default: () => teamsRouter_default
 });
-module.exports = __toCommonJS(userRouter_exports);
+module.exports = __toCommonJS(teamsRouter_exports);
 var import_express = __toESM(require("express"));
-var import_user_svc = __toESM(require("../services/user-svc"));
-const userRouter = import_express.default.Router();
-const userService = new import_user_svc.default();
-userRouter.get("/", (_, res) => {
-  userService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
+var import_team_svc = __toESM(require("../services/team-svc"));
+const teamRouter = import_express.default.Router();
+const teamService = new import_team_svc.default();
+teamRouter.get("/", (_, res) => {
+  teamService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
 });
-userRouter.get("/:userid", (req, res) => {
-  const { userid } = req.params;
-  userService.getUserById(Number(userid)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+teamRouter.get("/:teamId", (req, res) => {
+  const { teamId } = req.params;
+  teamService.getTeamById(Number(teamId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
-userRouter.post("/", (req, res) => {
-  const newUser = req.body;
-  userService.createUser(newUser).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));
+teamRouter.post("/", (req, res) => {
+  const newTeam = req.body;
+  teamService.createTeam(newTeam).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));
 });
-userRouter.put("/:userid", (req, res) => {
-  const updatedUser = req.body;
-  const { userid } = req.params;
-  userService.updateUser(updatedUser, Number(userid)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+teamRouter.put("/:teamId", (req, res) => {
+  const updatedTeam = req.body;
+  const { teamId } = req.params;
+  teamService.updateTeam(updatedTeam, Number(teamId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
-userRouter.delete("/:userid", (req, res) => {
-  const { userid } = req.params;
-  userService.removeUser(Number(userid)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+teamRouter.delete("/:teamId", (req, res) => {
+  const { teamId } = req.params;
+  teamService.removeTeam(Number(teamId)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
-var userRouter_default = userRouter;
+var teamsRouter_default = teamRouter;

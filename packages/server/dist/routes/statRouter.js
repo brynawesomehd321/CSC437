@@ -26,33 +26,33 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var userRouter_exports = {};
-__export(userRouter_exports, {
-  default: () => userRouter_default
+var statRouter_exports = {};
+__export(statRouter_exports, {
+  default: () => statRouter_default
 });
-module.exports = __toCommonJS(userRouter_exports);
+module.exports = __toCommonJS(statRouter_exports);
 var import_express = __toESM(require("express"));
-var import_user_svc = __toESM(require("../services/user-svc"));
-const userRouter = import_express.default.Router();
-const userService = new import_user_svc.default();
-userRouter.get("/", (_, res) => {
-  userService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
+var import_stat_svc = __toESM(require("../services/stat-svc"));
+const statRouter = import_express.default.Router();
+const statService = new import_stat_svc.default();
+statRouter.get("/", (_, res) => {
+  statService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
 });
-userRouter.get("/:userid", (req, res) => {
-  const { userid } = req.params;
-  userService.getUserById(Number(userid)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+statRouter.get("/:statId", (req, res) => {
+  const { statId } = req.params;
+  statService.getStatById(Number(statId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
-userRouter.post("/", (req, res) => {
-  const newUser = req.body;
-  userService.createUser(newUser).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));
+statRouter.post("/", (req, res) => {
+  const newStat = req.body;
+  statService.createStat(newStat).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));
 });
-userRouter.put("/:userid", (req, res) => {
-  const updatedUser = req.body;
-  const { userid } = req.params;
-  userService.updateUser(updatedUser, Number(userid)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+statRouter.put("/:statId", (req, res) => {
+  const updatedStat = req.body;
+  const { statId } = req.params;
+  statService.updateStat(updatedStat, Number(statId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
-userRouter.delete("/:userid", (req, res) => {
-  const { userid } = req.params;
-  userService.removeUser(Number(userid)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+statRouter.delete("/:statId", (req, res) => {
+  const { statId } = req.params;
+  statService.removeStat(Number(statId)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
-var userRouter_default = userRouter;
+var statRouter_default = statRouter;

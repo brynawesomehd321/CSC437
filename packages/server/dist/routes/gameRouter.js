@@ -26,33 +26,33 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var userRouter_exports = {};
-__export(userRouter_exports, {
-  default: () => userRouter_default
+var gameRouter_exports = {};
+__export(gameRouter_exports, {
+  default: () => gameRouter_default
 });
-module.exports = __toCommonJS(userRouter_exports);
+module.exports = __toCommonJS(gameRouter_exports);
 var import_express = __toESM(require("express"));
-var import_user_svc = __toESM(require("../services/user-svc"));
-const userRouter = import_express.default.Router();
-const userService = new import_user_svc.default();
-userRouter.get("/", (_, res) => {
-  userService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
+var import_game_svc = __toESM(require("../services/game-svc"));
+const gameRouter = import_express.default.Router();
+const gameService = new import_game_svc.default();
+gameRouter.get("/", (_, res) => {
+  gameService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
 });
-userRouter.get("/:userid", (req, res) => {
-  const { userid } = req.params;
-  userService.getUserById(Number(userid)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+gameRouter.get("/:gameId", (req, res) => {
+  const { gameId } = req.params;
+  gameService.getGameById(Number(gameId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
-userRouter.post("/", (req, res) => {
-  const newUser = req.body;
-  userService.createUser(newUser).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));
+gameRouter.post("/", (req, res) => {
+  const newGame = req.body;
+  gameService.createGame(newGame).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));
 });
-userRouter.put("/:userid", (req, res) => {
-  const updatedUser = req.body;
-  const { userid } = req.params;
-  userService.updateUser(updatedUser, Number(userid)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+gameRouter.put("/:gameId", (req, res) => {
+  const updatedGame = req.body;
+  const { gameId } = req.params;
+  gameService.updateGame(updatedGame, Number(gameId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
-userRouter.delete("/:userid", (req, res) => {
-  const { userid } = req.params;
-  userService.removeUser(Number(userid)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+gameRouter.delete("/:gameId", (req, res) => {
+  const { gameId } = req.params;
+  gameService.removeGame(Number(gameId)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
-var userRouter_default = userRouter;
+var gameRouter_default = gameRouter;

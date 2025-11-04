@@ -16,60 +16,60 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var user_svc_exports = {};
-__export(user_svc_exports, {
-  default: () => user_svc_default
+var team_svc_exports = {};
+__export(team_svc_exports, {
+  default: () => team_svc_default
 });
-module.exports = __toCommonJS(user_svc_exports);
+module.exports = __toCommonJS(team_svc_exports);
 var import_sqlite3 = require("./sqlite3");
-class UserService {
+class TeamService {
   //index
   async index() {
     const db = await import_sqlite3.dbPromise;
-    const sql = `SELECT * FROM users`;
-    const users = await db.all(sql);
-    return users;
+    const sql = `SELECT * FROM teams`;
+    const teams = await db.all(sql);
+    return teams;
   }
   //get
-  async getUserById(userid) {
+  async getTeamById(teamId) {
     const db = await import_sqlite3.dbPromise;
-    const sql = `SELECT * FROM users WHERE userid = ?`;
-    const row = await db.get(sql, [userid]);
+    const sql = `SELECT * FROM teams WHERE teamId = ?`;
+    const row = await db.get(sql, [teamId]);
     return row;
   }
   //create
-  async createUser(user) {
+  async createTeam(team) {
     const db = await import_sqlite3.dbPromise;
-    const { username, email } = user;
-    const sql = `INSERT INTO users (username, email) VALUES (?, ?)`;
-    const result = await db.run(sql, [username, email]);
+    const { teamName } = team;
+    const sql = `INSERT INTO teams (teamName) VALUES (?)`;
+    const result = await db.run(sql, [teamName]);
     if (result.lastID) {
-      const createdUser = await this.getUserById(result.lastID);
-      return createdUser;
+      const createdTeam = await this.getTeamById(result.lastID);
+      return createdTeam;
     } else {
-      throw new Error("Failed to create new user.");
+      throw new Error("Failed to create new team.");
     }
   }
   //put
-  async updateUser(updatedUser, userid) {
-    const { username, email } = updatedUser;
+  async updateTeam(updatedTeam, teamId) {
+    const { teamName } = updatedTeam;
     const db = await import_sqlite3.dbPromise;
-    const sql = `UPDATE users SET username = ?, email = ? WHERE userid = ?`;
-    const result = await db.run(sql, [username, email, userid]);
+    const sql = `UPDATE teams SET teamName = ? WHERE teamId = ?`;
+    const result = await db.run(sql, [teamName, teamId]);
     if (result.changes) {
-      return updatedUser;
+      return updatedTeam;
     } else {
-      throw new Error("User not found or update failed.");
+      throw new Error("Team not found or update failed.");
     }
   }
   //delete
-  async removeUser(userid) {
+  async removeTeam(teamId) {
     const db = await import_sqlite3.dbPromise;
-    const sql = "DELETE FROM users WHERE userid = ?";
-    const result = await db.run(sql, [userid]);
+    const sql = "DELETE FROM teams WHERE teamId = ?";
+    const result = await db.run(sql, [teamId]);
     if (result.changes === 0) {
-      throw new Error("User not found or deletion failed");
+      throw new Error("Team not found or deletion failed");
     }
   }
 }
-var user_svc_default = UserService;
+var team_svc_default = TeamService;

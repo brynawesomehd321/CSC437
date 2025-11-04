@@ -26,11 +26,11 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var userRouter_exports = {};
-__export(userRouter_exports, {
-  default: () => userRouter_default
+var userRouter_copy_exports = {};
+__export(userRouter_copy_exports, {
+  default: () => userRouter_copy_default
 });
-module.exports = __toCommonJS(userRouter_exports);
+module.exports = __toCommonJS(userRouter_copy_exports);
 var import_express = __toESM(require("express"));
 var import_user_svc = __toESM(require("../services/user-svc"));
 const userRouter = import_express.default.Router();
@@ -55,4 +55,4 @@ userRouter.delete("/:userid", (req, res) => {
   const { userid } = req.params;
   userService.removeUser(Number(userid)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
-var userRouter_default = userRouter;
+var userRouter_copy_default = userRouter;

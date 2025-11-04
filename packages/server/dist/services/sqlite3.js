@@ -28,32 +28,98 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var sqlite3_exports = {};
 __export(sqlite3_exports, {
+  dbPromise: () => dbPromise,
   openDatabase: () => openDatabase
 });
 module.exports = __toCommonJS(sqlite3_exports);
 var import_sqlite3 = __toESM(require("sqlite3"));
 var import_sqlite = require("sqlite");
+const dbPromise = (0, import_sqlite.open)({
+  filename: "../database.db",
+  // Specify the database file
+  driver: import_sqlite3.default.Database
+});
 async function openDatabase() {
-  const db = await (0, import_sqlite.open)({
-    filename: "../database.db",
-    // Specify the database file
-    driver: import_sqlite3.default.Database
-  });
-  const createTableSql = `
+  const db = await dbPromise;
+  await db.run("PRAGMA foreign_keys = ON;");
+  const createUsersTableSql = `
         CREATE TABLE IF NOT EXISTS users (
             userid INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL
-        )`;
-  await db.run(createTableSql, (err) => {
+        );`;
+  await db.run(createUsersTableSql, (err) => {
     if (err) {
-      return console.error("Error creating table:", err.message);
+      return console.error("Error creating users table:", err.message);
     }
-    console.log("Table created successfully");
+    console.log("users table created successfully");
+  });
+  const createTeamsTableSql = `
+        CREATE TABLE IF NOT EXISTS teams (
+            teamId INTEGER PRIMARY KEY AUTOINCREMENT,
+            teamName TEXT UNIQUE NOT NULL
+        );`;
+  await db.run(createTeamsTableSql, (err) => {
+    if (err) {
+      return console.error("Error creating teams table:", err.message);
+    }
+    console.log("teams table created successfully");
+  });
+  const createPlayersTableSql = `
+        CREATE TABLE IF NOT EXISTS players (
+            playerId INTEGER PRIMARY KEY AUTOINCREMENT,
+            playerName TEXT UNIQUE NOT NULL,
+            playerNumber INTEGER NOT NULL,
+            teamId INTEGER NOT NULL,
+            FOREIGN KEY (teamId) REFERENCES teams(teamId)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+        );`;
+  await db.run(createPlayersTableSql, (err) => {
+    if (err) {
+      return console.error("Error creating players table:", err.message);
+    }
+    console.log("players table created successfully");
+  });
+  const createGamesTableSql = `
+        CREATE TABLE IF NOT EXISTS games (
+            gameId INTEGER PRIMARY KEY AUTOINCREMENT,
+            location TEXT NOT NULL,
+            date TEXT NOT NULL,
+            teamId INTEGER NOT NULL,
+            FOREIGN KEY (teamId) REFERENCES teams(teamId)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+        );`;
+  await db.run(createGamesTableSql, (err) => {
+    if (err) {
+      return console.error("Error creating games table:", err.message);
+    }
+    console.log("games table created successfully");
+  });
+  const createStatsTableSql = `
+        CREATE TABLE IF NOT EXISTS stats (
+            statId INTEGER PRIMARY KEY AUTOINCREMENT,
+            statType TEXT NOT NULL,
+            playerId INTEGER NOT NULL,
+            gameId INTEGER NOT NULL,
+            FOREIGN KEY (playerId) REFERENCES players(playerId)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE,
+            FOREIGN KEY (gameId) REFERENCES games(gameId)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+        );`;
+  await db.run(createStatsTableSql, (err) => {
+    if (err) {
+      return console.error("Error creating stats table:", err.message);
+    }
+    console.log("stats table created successfully");
   });
   return db;
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  dbPromise,
   openDatabase
 });

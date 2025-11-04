@@ -23,24 +23,23 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_sqlite3 = require("./services/sqlite3");
-var import_user_svc = __toESM(require("./services/user-svc"));
+var import_userRouter = __toESM(require("./routes/userRouter"));
+var import_teamRouter = __toESM(require("./routes/teamRouter"));
+var import_playerRouter = __toESM(require("./routes/playerRouter"));
+var import_statRouter = __toESM(require("./routes/statRouter"));
+var import_gameRouter = __toESM(require("./routes/gameRouter"));
 async function startServer() {
   const app = (0, import_express.default)();
   const port = process.env.PORT || 3e3;
   const staticDir = process.env.STATIC || "public";
   app.use(import_express.default.static(staticDir));
-  const db = await (0, import_sqlite3.openDatabase)();
-  const userService = new import_user_svc.default(db);
-  app.get("/users/:userid", (req, res) => {
-    const { userid } = req.params;
-    userService.getUserById(userid).then((data) => {
-      if (data) res.set("Content-Type", "application/json").send(JSON.stringify(data));
-      else {
-        res.status(404).send();
-        console.log("userid not found:", userid);
-      }
-    });
-  });
+  app.use(import_express.default.json());
+  app.use("/api/users", import_userRouter.default);
+  app.use("/api/teams", import_teamRouter.default);
+  app.use("/api/players", import_playerRouter.default);
+  app.use("/api/stats", import_statRouter.default);
+  app.use("/api/games", import_gameRouter.default);
+  await (0, import_sqlite3.openDatabase)();
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });

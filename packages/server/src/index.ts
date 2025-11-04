@@ -1,7 +1,11 @@
 // src/index.ts
-import express, { Request, Response } from "express";
+import express from "express";
 import { openDatabase } from "./services/sqlite3"
-import UserService from "./services/user-svc";
+import userRouter from "./routes/userRouter";
+import teamRouter from "./routes/teamRouter";
+import playerRouter from "./routes/playerRouter";
+import statRouter from "./routes/statRouter";
+import gameRouter from "./routes/gameRouter";
 
 async function startServer() {
   const app = express();
@@ -9,24 +13,18 @@ async function startServer() {
   const staticDir = process.env.STATIC || "public";
 
   app.use(express.static(staticDir));
+  // Middleware:
+  app.use(express.json());
+  
+  //Routes
+  app.use("/api/users", userRouter);
+  app.use("/api/teams", teamRouter);
+  app.use("/api/players", playerRouter);
+  app.use("/api/stats", statRouter);
+  app.use("/api/games", gameRouter);
 
   // Wait for database to open before continuing
-  const db = await openDatabase();
-  const userService = new UserService(db);
-
-  app.get("/users/:userid", (req: Request, res: Response) => {
-    const { userid } = req.params;
-
-    userService.getUserById(userid).then((data) => {
-      if (data) res
-        .set("Content-Type", "application/json")
-        .send(JSON.stringify(data));
-      else {
-        res.status(404).send();
-        console.log("userid not found:", userid);
-      } 
-    });
-  });
+  await openDatabase();
 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
