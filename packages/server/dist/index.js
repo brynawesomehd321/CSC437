@@ -28,17 +28,19 @@ var import_teamRouter = __toESM(require("./routes/teamRouter"));
 var import_playerRouter = __toESM(require("./routes/playerRouter"));
 var import_statRouter = __toESM(require("./routes/statRouter"));
 var import_gameRouter = __toESM(require("./routes/gameRouter"));
+var import_authRouter = __toESM(require("./routes/authRouter"));
 async function startServer() {
   const app = (0, import_express.default)();
   const port = process.env.PORT || 3e3;
   const staticDir = process.env.STATIC || "public";
   app.use(import_express.default.static(staticDir));
   app.use(import_express.default.json());
-  app.use("/api/users", import_userRouter.default);
-  app.use("/api/teams", import_teamRouter.default);
-  app.use("/api/players", import_playerRouter.default);
-  app.use("/api/stats", import_statRouter.default);
-  app.use("/api/games", import_gameRouter.default);
+  app.use("/api/users", import_authRouter.authenticateUser, import_userRouter.default);
+  app.use("/api/:userId/teams", import_authRouter.authenticateUser, import_teamRouter.default);
+  app.use("/api/players", import_authRouter.authenticateUser, import_playerRouter.default);
+  app.use("/api/stats", import_authRouter.authenticateUser, import_statRouter.default);
+  app.use("/api/games", import_authRouter.authenticateUser, import_gameRouter.default);
+  app.use("/auth", import_authRouter.default);
   await (0, import_sqlite3.openDatabase)();
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

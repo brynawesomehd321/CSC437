@@ -4,7 +4,6 @@ import { Team } from "./team";
 
 export interface User {
   userid: number;
-  username: string;
-  email: string;
-  teams: Array<Team>;
+  fullName: string;
+  email: string; //foreign key to credential
 }

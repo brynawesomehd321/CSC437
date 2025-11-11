@@ -5,10 +5,10 @@ import { dbPromise } from "./sqlite3";
 class TeamService {
 
     //index
-    async index(): Promise<Array<Team>> {
+    async index(userId: number): Promise<Array<Team>> {
         const db = await dbPromise;
-        const sql = `SELECT * FROM teams`;
-        const teams = await db.all(sql);
+        const sql = `SELECT * FROM teams WHERE userId = ?`;
+        const teams = await db.all(sql, [userId]);
         return teams as Array<Team>;
     }
 
@@ -23,9 +23,9 @@ class TeamService {
     //create
     async createTeam(team: Team): Promise<Team> {
         const db = await dbPromise;
-        const { teamName } = team;
-        const sql = `INSERT INTO teams (teamName) VALUES (?)`;
-        const result = await db.run(sql, [teamName]);
+        const { teamName, userId } = team;
+        const sql = `INSERT INTO teams (teamName, userId) VALUES (?, ?)`;
+        const result = await db.run(sql, [teamName, userId]);
         if(result.lastID) {
             const createdTeam = await this.getTeamById(result.lastID);
             return createdTeam;
@@ -37,10 +37,10 @@ class TeamService {
 
     //put
     async updateTeam(updatedTeam: Team, teamId: number): Promise<Team> {
-        const { teamName } = updatedTeam;
+        const { teamName, userId } = updatedTeam;
         const db = await dbPromise;
-        const sql = `UPDATE teams SET teamName = ? WHERE teamId = ?`;
-        const result = await db.run(sql, [teamName, teamId]);
+        const sql = `UPDATE teams SET teamName = ?, userId = ? WHERE teamId = ?`;
+        const result = await db.run(sql, [teamName, userId, teamId]);
         if(result.changes) {
             return updatedTeam;
         }

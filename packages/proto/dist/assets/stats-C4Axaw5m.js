@@ -1,12 +1,12 @@
-import{i as l,x as i,r as h,a as p,n as g,b as m}from"./state-J0lqo2u5.js";var u=Object.defineProperty,n=(d,s,r,v)=>{for(var t=void 0,o=d.length-1,c;o>=0;o--)(c=d[o])&&(t=c(s,r,t)||t);return t&&u(s,r,t),t};const a=class a extends l{constructor(){super(...arguments),this.stats=[]}connectedCallback(){super.connectedCallback(),this.src&&this.hydrate(this.src)}hydrate(s){fetch(s).then(r=>r.json()).then(r=>{r&&(this.stats=r)})}renderStatRows(){return this.stats.map(r=>i`
+import{a as h,O as l,x as n,r as u,i as g,n as p,b as v}from"./mustang-DkBCA8E-.js";var b=Object.defineProperty,c=(d,r,t,m)=>{for(var s=void 0,a=d.length-1,i;a>=0;a--)(i=d[a])&&(s=i(r,t,s)||s);return s&&b(r,t,s),s};const o=class o extends h{constructor(){super(...arguments),this.stats=[],this._authObserver=new l(this,"stats:auth")}get authorization(){return this._user?.authenticated&&{Authorization:`Bearer ${this._user.token}`}}connectedCallback(){super.connectedCallback(),this._authObserver.observe(r=>{this._user=r.user}),this.src&&this.hydrate(this.src)}hydrate(r){fetch(r).then(t=>t.json()).then(t=>{t&&(this.stats=t)})}renderStatRows(){return this.stats.map(t=>n`
             <div class="stat-row">
-                <dt>${r.name}</dt>
-                <dd>${r.scores}</dd>
-                <dd>${r.blocks}</dd>
-                <dd>${r.drops}</dd>
-                <dd>${r.incompletions}</dd>
+                <dt>${t.name}</dt>
+                <dd>${t.scores}</dd>
+                <dd>${t.blocks}</dd>
+                <dd>${t.drops}</dd>
+                <dd>${t.incompletions}</dd>
             </div>
-        `)}render(){return i`
+        `)}render(){return n`
         <section class="stat-grid-header">
             <h3>Name</h3>
             <h3>Scores</h3>
@@ -19,7 +19,7 @@ import{i as l,x as i,r as h,a as p,n as g,b as m}from"./state-J0lqo2u5.js";var u
                 ${this.renderStatRows()}
             </dl>
         </section>
-        `}};a.styles=[h.styles,p`
+        `}};o.styles=[u.styles,g`
             .stat-grid-header {
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);
@@ -51,4 +51,4 @@ import{i as l,x as i,r as h,a as p,n as g,b as m}from"./state-J0lqo2u5.js";var u
             .stat-row:hover {
                 background-color: var(--color-hover);
             }
-        `];let e=a;n([g()],e.prototype,"src");n([m()],e.prototype,"stats");customElements.define("stat-table",e);
+        `];let e=o;c([p()],e.prototype,"src");c([v()],e.prototype,"stats");customElements.define("stat-table",e);

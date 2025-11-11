@@ -12,29 +12,22 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <title>My Teams</title>
-      <script type="module" crossorigin src="/assets/main-mDgrV4yb.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/state-J0lqo2u5.js">
-      <link rel="modulepreload" crossorigin href="/assets/cardGrid-DuHlKTRd.js">
+      <script type="module" crossorigin src="/assets/main-DeKx0Kw4.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/mustang-DkBCA8E-.js">
+      <link rel="modulepreload" crossorigin href="/assets/cardGrid-CMCv4JGw.js">
     </head>
     <body>
         <script src="/scripts/darkmode.js"></script>
-        <div class="header">
-            <span>
-                <a href="index.html">
-                    <svg class="icon">
-                        <use href="/icons/base.svg#icon-home" />
-                    </svg>
-                </a>
-            </span>
-            <h1>Stat Tracker</h1>
-            <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
-                <input type="checkbox" autocomplete="off"/>
-                Dark mode
-            </label>
-        </div>
-        <div class="subheader">
-            <h1>My Teams</h1>
-        </div>
-        <card-grid src="data/teams.json"></card-grid>
+        <mu-auth provides="stats:auth">
+            <page-header></page-header>
+            <div class="subheader">
+                <h1>My Teams</h1>
+                <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
+                    <input type="checkbox" autocomplete="off"/>
+                    Dark mode
+                </label>
+            </div>
+            <card-grid src="/api/1/teams"></card-grid>
+        </mu-auth>
     </body>
 </html>

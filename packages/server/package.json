@@ -14,7 +14,9 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.9.1",
     "cross-env": "^10.1.0",
     "esbuild": "^0.25.11",
@@ -24,7 +26,10 @@
   },
   "dependencies": {
     "@types/sqlite3": "^3.1.11",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   }

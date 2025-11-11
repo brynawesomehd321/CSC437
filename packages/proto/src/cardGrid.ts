@@ -2,26 +2,43 @@
 import { html, css, LitElement } from "lit";
 import reset from "./styles/reset.css.ts";
 import { property, state } from "lit/decorators.js";
+import { Observer, Auth } from "@calpoly/mustang";
+import { Team } from "./models/team.ts";
 
 export class CardGridElement extends LitElement {
     @property()
     src?: string;
 
     @state()
-    cards: Array<string> = [];
+    cards: Array<Team> = [];
+
+    _authObserver = new Observer<Auth.Model>(this, "stats:auth");
+    _user?: Auth.User;
+
+    get authorization(): { Authorization?: string } {
+        if (this._user && this._user.authenticated)
+            return {
+                Authorization:
+                    `Bearer ${(this._user as Auth.AuthenticatedUser).token}`
+            };
+        else return {};
+    }
 
     connectedCallback() {
         super.connectedCallback();
-        if (this.src) this.hydrate(this.src);
+        this._authObserver.observe((auth: Auth.Model) => {
+            this._user= auth.user;
+            if (this.src) this.hydrate(this.src); 
+        });
     }
 
     hydrate(src: string) {
-        fetch(src)
+        fetch(src, { headers: this.authorization })
         .then(res => res.json())
         .then((json: object) => {
             if(json) {
                 // store the data as @state
-                this.cards = json as Array<string>;
+                this.cards = json as Array<Team>;
             }
         })
     }
@@ -30,7 +47,7 @@ export class CardGridElement extends LitElement {
         let cards = this.cards.map((card) =>
         html`
             <a href="/team.html">
-                <h2>${card}</h2>
+                <h2>${card.teamName}</h2>
             </a>
         `
         )

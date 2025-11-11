@@ -15,6 +15,7 @@ export default defineConfig({
         schedule: resolve(__dirname, 'schedule.html'),
         team: resolve(__dirname, 'team.html'),
         roster: resolve(__dirname, 'roster.html'),
+        login: resolve(__dirname, 'login.html')
       },
     },
   },

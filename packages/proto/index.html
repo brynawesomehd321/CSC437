@@ -17,28 +17,25 @@
         <script src="/scripts/darkmode.js"></script>
         <script type="module">
             import { CardGridElement } from "/src/cardGrid.ts";
+            import { HeaderElement } from "/src/header.ts";
+            import { define, Auth } from "@calpoly/mustang"
 
-            customElements.define(
-                "card-grid", CardGridElement
-            );
+            define({
+                "card-grid": CardGridElement,
+                "page-header": HeaderElement,
+                "mu-auth": Auth.Provider
+            });
         </script>
-        <div class="header">
-            <span>
-                <a href="index.html">
-                    <svg class="icon">
-                        <use href="/icons/base.svg#icon-home" />
-                    </svg>
-                </a>
-            </span>
-            <h1>Stat Tracker</h1>
-            <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
-                <input type="checkbox" autocomplete="off"/>
-                Dark mode
-            </label>
-        </div>
-        <div class="subheader">
-            <h1>My Teams</h1>
-        </div>
-        <card-grid src="data/teams.json"></card-grid>
+        <mu-auth provides="stats:auth">
+            <page-header></page-header>
+            <div class="subheader">
+                <h1>My Teams</h1>
+                <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
+                    <input type="checkbox" autocomplete="off"/>
+                    Dark mode
+                </label>
+            </div>
+            <card-grid src="/api/1/teams"></card-grid>
+        </mu-auth>
     </body>
 </html>

@@ -34,11 +34,12 @@ module.exports = __toCommonJS(teamRouter_exports);
 var import_express = __toESM(require("express"));
 var import_team_svc = __toESM(require("../services/team-svc"));
 var import_player_svc = __toESM(require("../services/player-svc"));
-const teamRouter = import_express.default.Router();
+const teamRouter = import_express.default.Router({ mergeParams: true });
 const teamService = new import_team_svc.default();
 const playerService = new import_player_svc.default();
-teamRouter.get("/", (_, res) => {
-  teamService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
+teamRouter.get("/", (req, res) => {
+  const { userId } = req.params;
+  teamService.index(Number(userId)).then((data) => res.json(data)).catch((err) => res.status(500).send(err));
 });
 teamRouter.get("/:teamId", (req, res) => {
   const { teamId } = req.params;

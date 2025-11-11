@@ -31,18 +31,18 @@ class UserService {
     return users;
   }
   //get
-  async getUserById(userid) {
+  async getUserById(userId) {
     const db = await import_sqlite3.dbPromise;
-    const sql = `SELECT * FROM users WHERE userid = ?`;
-    const row = await db.get(sql, [userid]);
+    const sql = `SELECT * FROM users WHERE userId = ?`;
+    const row = await db.get(sql, [userId]);
     return row;
   }
   //create
   async createUser(user) {
     const db = await import_sqlite3.dbPromise;
-    const { username, email } = user;
-    const sql = `INSERT INTO users (username, email) VALUES (?, ?)`;
-    const result = await db.run(sql, [username, email]);
+    const { fullName, email } = user;
+    const sql = `INSERT INTO users (fullName, email) VALUES (?, ?)`;
+    const result = await db.run(sql, [fullName, email]);
     if (result.lastID) {
       const createdUser = await this.getUserById(result.lastID);
       return createdUser;
@@ -51,11 +51,11 @@ class UserService {
     }
   }
   //put
-  async updateUser(updatedUser, userid) {
-    const { username, email } = updatedUser;
+  async updateUser(updatedUser, userId) {
+    const { fullName, email } = updatedUser;
     const db = await import_sqlite3.dbPromise;
-    const sql = `UPDATE users SET username = ?, email = ? WHERE userid = ?`;
-    const result = await db.run(sql, [username, email, userid]);
+    const sql = `UPDATE users SET fullName = ?, email = ? WHERE userId = ?`;
+    const result = await db.run(sql, [fullName, email, userId]);
     if (result.changes) {
       return updatedUser;
     } else {
@@ -63,10 +63,10 @@ class UserService {
     }
   }
   //delete
-  async removeUser(userid) {
+  async removeUser(userId) {
     const db = await import_sqlite3.dbPromise;
-    const sql = "DELETE FROM users WHERE userid = ?";
-    const result = await db.run(sql, [userid]);
+    const sql = "DELETE FROM users WHERE userId = ?";
+    const result = await db.run(sql, [userId]);
     if (result.changes === 0) {
       throw new Error("User not found or deletion failed");
     }

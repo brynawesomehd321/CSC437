@@ -15,11 +15,28 @@ export async function openDatabase() {
     await db.run('PRAGMA foreign_keys = ON;');
 
     // Define the SQL statement to create a table
+    const createCredentialsTableSql = `
+        CREATE TABLE IF NOT EXISTS credentials (
+            email TEXT PRIMARY KEY,
+            hashedPassword TEXT NOT NULL
+        );`;
+
+    //Create credentials table
+    await db.run(createCredentialsTableSql, (err: { message: string; }) => {
+        if (err) {
+            return console.error('Error creating credentials table:', err.message);
+        }
+        console.log('credentials table created successfully');
+    });
+
     const createUsersTableSql = `
         CREATE TABLE IF NOT EXISTS users (
-            userid INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL
+            userId INTEGER PRIMARY KEY AUTOINCREMENT,
+            fullName TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            FOREIGN KEY (email) REFERENCES credentials(email)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
         );`;
 
     //Create users table
@@ -33,7 +50,11 @@ export async function openDatabase() {
     const createTeamsTableSql = `
         CREATE TABLE IF NOT EXISTS teams (
             teamId INTEGER PRIMARY KEY AUTOINCREMENT,
-            teamName TEXT UNIQUE NOT NULL
+            teamName TEXT UNIQUE NOT NULL,
+            userId INTEGER NOT NULL,
+            FOREIGN KEY (userId) REFERENCES users(userId)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
         );`;
 
     //Create teams table
@@ -96,7 +117,7 @@ export async function openDatabase() {
                 ON UPDATE CASCADE
         );`;
 
-    //Create players table
+    //Create stats table
     await db.run(createStatsTableSql, (err: { message: string; }) => {
         if (err) {
             return console.error('Error creating stats table:', err.message);

@@ -4,13 +4,15 @@ import { Team } from '../models/team';
 import { Player } from '../models/player';
 import PlayerService from '../services/player-svc';
 
-const teamRouter = express.Router();
+const teamRouter = express.Router({ mergeParams: true });
 const teamService = new TeamService();
 const playerService = new PlayerService();
 
-//get list of teams
-teamRouter.get("/", (_, res: Response) => {
-    teamService.index()
+//get list of teams for the user
+teamRouter.get("/", (req: Request, res: Response) => {
+    const { userId } = req.params;
+
+    teamService.index(Number(userId))
         .then((data: Array<Team | undefined>) => res.json(data))
         .catch((err) => res.status(500).send(err));
 });
@@ -23,6 +25,7 @@ teamRouter.get('/:teamId', (req: Request, res: Response) => {
         .then((data: Team | undefined) => res.json(data))
         .catch((err) => res.status(404).send(err));
 });
+
 
 //get list of players for a team
 teamRouter.get('/:teamId/roster', (req: Request, res: Response) => {

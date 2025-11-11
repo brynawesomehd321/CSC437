@@ -6,6 +6,7 @@ import teamRouter from "./routes/teamRouter";
 import playerRouter from "./routes/playerRouter";
 import statRouter from "./routes/statRouter";
 import gameRouter from "./routes/gameRouter";
+import authRouter, { authenticateUser } from "./routes/authRouter";
 
 async function startServer() {
   const app = express();
@@ -17,11 +18,12 @@ async function startServer() {
   app.use(express.json());
   
   //Routes
-  app.use("/api/users", userRouter);
-  app.use("/api/teams", teamRouter);
-  app.use("/api/players", playerRouter);
-  app.use("/api/stats", statRouter);
-  app.use("/api/games", gameRouter);
+  app.use("/api/users", authenticateUser, userRouter);
+  app.use("/api/:userId/teams", authenticateUser, teamRouter);
+  app.use("/api/players", authenticateUser, playerRouter);
+  app.use("/api/stats", authenticateUser, statRouter);
+  app.use("/api/games", authenticateUser, gameRouter);
+  app.use("/auth", authRouter);
 
   // Wait for database to open before continuing
   await openDatabase();

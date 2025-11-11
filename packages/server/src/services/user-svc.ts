@@ -1,5 +1,4 @@
 // src/services/user-svc.ts
-import { Database } from "sqlite";
 import { User } from "../models/user";
 import { dbPromise } from "./sqlite3";
 
@@ -14,19 +13,19 @@ class UserService {
     }
 
     //get
-    async getUserById(userid: number): Promise<User> {
+    async getUserById(userId: number): Promise<User> {
         const db = await dbPromise;
-        const sql = `SELECT * FROM users WHERE userid = ?`;
-        const row = await db.get(sql, [userid]);
+        const sql = `SELECT * FROM users WHERE userId = ?`;
+        const row = await db.get(sql, [userId]);
         return row as User;
     }
 
     //create
     async createUser(user: User): Promise<User> {
         const db = await dbPromise;
-        const { username, email } = user;
-        const sql = `INSERT INTO users (username, email) VALUES (?, ?)`;
-        const result = await db.run(sql, [username, email]);
+        const { fullName, email } = user;
+        const sql = `INSERT INTO users (fullName, email) VALUES (?, ?)`;
+        const result = await db.run(sql, [fullName, email]);
         if(result.lastID) {
             const createdUser = await this.getUserById(result.lastID);
             return createdUser;
@@ -37,11 +36,11 @@ class UserService {
     }
 
     //put
-    async updateUser(updatedUser: User, userid: number): Promise<User> {
-        const { username, email } = updatedUser;
+    async updateUser(updatedUser: User, userId: number): Promise<User> {
+        const { fullName, email } = updatedUser;
         const db = await dbPromise;
-        const sql = `UPDATE users SET username = ?, email = ? WHERE userid = ?`;
-        const result = await db.run(sql, [username, email, userid]);
+        const sql = `UPDATE users SET fullName = ?, email = ? WHERE userId = ?`;
+        const result = await db.run(sql, [fullName, email, userId]);
         if(result.changes) {
             return updatedUser;
         }
@@ -51,10 +50,10 @@ class UserService {
     }
 
     //delete
-    async removeUser(userid: number): Promise<void> {
+    async removeUser(userId: number): Promise<void> {
         const db = await dbPromise;
-        const sql = 'DELETE FROM users WHERE userid = ?'
-        const result = await db.run(sql, [userid]);
+        const sql = 'DELETE FROM users WHERE userId = ?'
+        const result = await db.run(sql, [userId]);
         if(result.changes === 0) {
             throw new Error("User not found or deletion failed");
         }

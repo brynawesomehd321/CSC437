@@ -2,7 +2,7 @@
 import { html, css, LitElement } from "lit";
 import reset from "./styles/reset.css.ts";
 import { property, state } from "lit/decorators.js";
-
+import { Observer, Auth } from "@calpoly/mustang";
 
 /*
     let rows = stats.map((row) =>
@@ -27,8 +27,23 @@ export class StatTableElement extends LitElement {
     @state()
     stats: Array<StatRow> = [];
 
+    _authObserver = new Observer<Auth.Model>(this, "stats:auth");
+    _user?: Auth.User;
+    
+    get authorization() {
+        return (
+            this._user?.authenticated && {
+            Authorization:
+                `Bearer ${(this._user as Auth.AuthenticatedUser).token}`
+            }
+        );
+    }
+
     connectedCallback() {
         super.connectedCallback();
+        this._authObserver.observe((auth: Auth.Model) => {
+            this._user= auth.user;
+        });
         if (this.src) this.hydrate(this.src);
     }
 
