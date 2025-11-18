@@ -1,4 +1,4 @@
-import{a as m,x as p,r as u,i as f,b as l,n as d,d as b,c as g}from"./mustang-DkBCA8E-.js";var v=Object.defineProperty,i=(h,r,t,o)=>{for(var e=void 0,s=h.length-1,c;s>=0;s--)(c=h[s])&&(e=c(r,t,e)||e);return e&&v(r,t,e),e};const n=class n extends m{constructor(){super(...arguments),this.formData={},this.redirect="/"}get canSubmit(){return!!(this.api&&this.formData.email&&this.formData.password)}render(){return p`
+import{i as m,x as p,r as u,b as f,c as l,n as d,d as b,a as g}from"./mustang-nWy_x3l5.js";var v=Object.defineProperty,i=(h,r,t,o)=>{for(var e=void 0,s=h.length-1,c;s>=0;s--)(c=h[s])&&(e=c(r,t,e)||e);return e&&v(r,t,e),e};const n=class n extends m{constructor(){super(...arguments),this.formData={},this.redirect="/"}get canSubmit(){return!!(this.api&&this.formData.email&&this.formData.password)}render(){return p`
       <form
         @change=${r=>this.handleChange(r)}
         @submit=${r=>this.handleSubmit(r)}

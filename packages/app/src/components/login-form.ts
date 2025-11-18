@@ -1,7 +1,7 @@
 // in proto/src/auth/login-form.ts
 import { html, css, LitElement } from "lit";
 import { property, state } from "lit/decorators.js";
-import reset from "../styles/reset.css.js";
+import reset from "../../../proto/src/styles/reset.css.js";
 
 interface LoginFormData {
   email?: string;

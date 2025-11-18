@@ -1,9 +1,12 @@
 import express, { Request, Response } from 'express';
 import GameService from '../services/game-svc';
 import { Game } from '../models/game';
+import { Stat } from '../models';
+import StatService from '../services/stat-svc';
 
 const gameRouter = express.Router();
 const gameService = new GameService();
+const statService = new StatService();
 
 //get list of games
 gameRouter.get("/", (_, res: Response) => {
@@ -19,6 +22,15 @@ gameRouter.get('/:gameId', (req: Request, res: Response) => {
     gameService.getGameById(Number(gameId))
         .then((data: Game | undefined) => res.json(data))
         .catch((err) => res.status(404).send(err));
+});
+
+//get a list of individual stats per game
+gameRouter.get('/:gameId/stats', (req: Request, res: Response) => {
+    const { gameId } = req.params;
+
+    statService.getStatsByGameId(Number(gameId))
+    .then((data: Array<Stat>) => res.json(data))
+    .catch((err) => res.status(404).send(err));
 });
 
 //create game (location, date, teamId)

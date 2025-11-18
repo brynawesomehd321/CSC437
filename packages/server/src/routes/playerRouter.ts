@@ -24,11 +24,20 @@ playerRouter.get('/:playerId', (req: Request, res: Response) => {
         .catch((err) => res.status(404).send(err));
 });
 
-//get a list of stats for a player
+//get a list of individual stats for a player
 playerRouter.get('/:playerId/stats', (req: Request, res: Response) => {
     const { playerId } = req.params;
 
     statService.getStatByPlayerId(Number(playerId))
+        .then((data: Array<Stat>) => res.json(data))
+        .catch((err) => res.status(404).send(err));
+});
+
+//get a list of total count of stats for a player
+playerRouter.get('/:playerId/totalStats', (req: Request, res: Response) => {
+    const { playerId } = req.params;
+
+    statService.getAllPlayerStats(Number(playerId))
         .then((data: Array<Stat>) => res.json(data))
         .catch((err) => res.status(404).send(err));
 });

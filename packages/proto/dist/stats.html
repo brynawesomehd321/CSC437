@@ -6,50 +6,45 @@
         <link rel="stylesheet" href="/styles/page.css" />
         <link rel="stylesheet" href="/styles/table.css" />
         <title>Stats</title>
-      <script type="module" crossorigin src="/assets/stats-C4Axaw5m.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/mustang-DkBCA8E-.js">
+      <script type="module" crossorigin src="/assets/stats-CdMd8Y5S.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/mustang-nWy_x3l5.js">
+      <link rel="modulepreload" crossorigin href="/assets/header-yGZUB2kS.js">
+      <link rel="modulepreload" crossorigin href="/assets/stats.css-C0u7BRNn.js">
     </head>
     <body>
         <script src="/scripts/darkmode.js"></script>
-        <div class="header">
-            <span>
-                <a href="index.html">
+        <mu-auth provides="stats:auth">
+            <page-header></page-header>
+            <div class="subheader">
+                <h2>
                     <svg class="icon">
-                        <use href="/icons/base.svg#icon-home" />
+                        <use href="/icons/base.svg#icon-stats" />
                     </svg>
-                </a>
-            </span>
-            <h1>Stat Tracker</h1>
-            <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
-                <input type="checkbox" autocomplete="off"/>
-                Dark mode
-            </label>
-        </div>
-        <div class="subheader">
-            <h2>
-                <svg class="icon">
-                    <use href="/icons/base.svg#icon-stats" />
-                </svg>
-                Team Stats
-            </h2>
-        </div>
-        <stat-table src="/data/teamStats.json"></stat-table>
-        <div class="subheader">
-            <h2>
-                <svg class="icon">
-                    <use href="/icons/base.svg#icon-stats" />
-                </svg>
-                Player Stats
-            </h2>
-        </div>
-        <stat-table src="/data/playerStats.json"></stat-table>
-        <a href="team.html">
-            <h3>
-                <svg class="icon">
-                    <use href="/icons/base.svg#icon-team" />
-                </svg>
-                Back to Team
-            </h3>
-        </a>
+                    Team Stats
+                </h2>
+                <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
+                    <input type="checkbox" autocomplete="off"/>
+                    Dark mode
+                </label>
+            </div>
+            <total-stat-block src="/api/teams/1/totalStats"/></total-stat-block>
+            <div class="subheader">
+                <h2>
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-stats" />
+                    </svg>
+                    Player Stats
+                </h2>
+            </div>
+            <stat-table src="/api/teams/1/stats"></stat-table>
+            <a href="team.html">
+                <h3>
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-team" />
+                    </svg>
+                    Back to Team
+                </h3>
+            </a>
+        </mu-auth>
     </body>
 </html>

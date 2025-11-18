@@ -29,6 +29,8 @@ var import_playerRouter = __toESM(require("./routes/playerRouter"));
 var import_statRouter = __toESM(require("./routes/statRouter"));
 var import_gameRouter = __toESM(require("./routes/gameRouter"));
 var import_authRouter = __toESM(require("./routes/authRouter"));
+var import_promises = __toESM(require("node:fs/promises"));
+var import_path = __toESM(require("path"));
 async function startServer() {
   const app = (0, import_express.default)();
   const port = process.env.PORT || 3e3;
@@ -36,12 +38,18 @@ async function startServer() {
   app.use(import_express.default.static(staticDir));
   app.use(import_express.default.json());
   app.use("/api/users", import_authRouter.authenticateUser, import_userRouter.default);
-  app.use("/api/:userId/teams", import_authRouter.authenticateUser, import_teamRouter.default);
+  app.use("/api/teams", import_authRouter.authenticateUser, import_teamRouter.default);
   app.use("/api/players", import_authRouter.authenticateUser, import_playerRouter.default);
   app.use("/api/stats", import_authRouter.authenticateUser, import_statRouter.default);
   app.use("/api/games", import_authRouter.authenticateUser, import_gameRouter.default);
   app.use("/auth", import_authRouter.default);
   await (0, import_sqlite3.openDatabase)();
+  app.use("/app", (req, res) => {
+    const indexHtml = import_path.default.resolve(staticDir, "index.html");
+    import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then(
+      (html) => res.send(html)
+    );
+  });
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });

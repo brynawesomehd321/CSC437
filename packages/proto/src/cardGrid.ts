@@ -4,13 +4,17 @@ import reset from "./styles/reset.css.ts";
 import { property, state } from "lit/decorators.js";
 import { Observer, Auth } from "@calpoly/mustang";
 import { Team } from "./models/team.ts";
+import { Player } from "./models/player.ts";
 
 export class CardGridElement extends LitElement {
     @property()
     src?: string;
 
+    @property()
+    dataType?: string;
+
     @state()
-    cards: Array<Team> = [];
+    cards: any[] = [];
 
     _authObserver = new Observer<Auth.Model>(this, "stats:auth");
     _user?: Auth.User;
@@ -32,26 +36,49 @@ export class CardGridElement extends LitElement {
         });
     }
 
+    checkSrc(src: string): void {
+        if (src.includes("teams")) {
+            this.dataType = "teams"
+        } 
+        if (src.includes("roster")) {
+            this.dataType = "roster"
+        }
+    }
+
     hydrate(src: string) {
-        fetch(src, { headers: this.authorization })
+        this.checkSrc(src);
+        const url = `${src}?email=${this._user?.username}`
+        fetch(url, { headers: this.authorization })
         .then(res => res.json())
         .then((json: object) => {
             if(json) {
-                // store the data as @state
-                this.cards = json as Array<Team>;
+                if (this.dataType === "teams")
+                    this.cards = json as Array<Team>;
+                else if (this.dataType === "roster")
+                    this.cards = json as Array<Player>;
             }
         })
     }
 
     renderCardGrid() {
-        let cards = this.cards.map((card) =>
-        html`
-            <a href="/team.html">
-                <h2>${card.teamName}</h2>
-            </a>
-        `
-        )
-        return cards;
+        if (this.dataType === "teams") {
+            return this.cards.map((card) => 
+                html`
+                    <a href="/team.html">
+                        <h2>${card.teamName}</h2>
+                    </a>
+                `
+            );
+        }
+        else {
+            return this.cards.map((card) =>
+                html`
+                    <a href="/team.html">
+                        <h2>${card.playerName}</h2>
+                    </a>
+                `
+            );
+        }
     }
 
     override render() {

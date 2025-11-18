@@ -11,50 +11,49 @@
         <script src="/scripts/darkmode.js"></script>
         <script type="module">
             import { StatTableElement } from "/src/statTable.ts";
+            import { TotalStatBlockElement } from "/src/totalStatBlock.ts"
+            import { HeaderElement } from "/src/header.ts";
+            import { define, Auth } from "@calpoly/mustang"
 
-            customElements.define(
-                "stat-table", StatTableElement
-            );
+            define({
+                "stat-table": StatTableElement,
+                "total-stat-block": TotalStatBlockElement,
+                "page-header": HeaderElement,
+                "mu-auth": Auth.Provider
+            });
         </script>
-        <div class="header">
-            <span>
-                <a href="index.html">
+        <mu-auth provides="stats:auth">
+            <page-header></page-header>
+            <div class="subheader">
+                <h2>
                     <svg class="icon">
-                        <use href="/icons/base.svg#icon-home" />
+                        <use href="/icons/base.svg#icon-stats" />
                     </svg>
-                </a>
-            </span>
-            <h1>Stat Tracker</h1>
-            <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
-                <input type="checkbox" autocomplete="off"/>
-                Dark mode
-            </label>
-        </div>
-        <div class="subheader">
-            <h2>
-                <svg class="icon">
-                    <use href="/icons/base.svg#icon-stats" />
-                </svg>
-                Team Stats
-            </h2>
-        </div>
-        <stat-table src="/data/teamStats.json"></stat-table>
-        <div class="subheader">
-            <h2>
-                <svg class="icon">
-                    <use href="/icons/base.svg#icon-stats" />
-                </svg>
-                Player Stats
-            </h2>
-        </div>
-        <stat-table src="/data/playerStats.json"></stat-table>
-        <a href="team.html">
-            <h3>
-                <svg class="icon">
-                    <use href="/icons/base.svg#icon-team" />
-                </svg>
-                Back to Team
-            </h3>
-        </a>
+                    Team Stats
+                </h2>
+                <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
+                    <input type="checkbox" autocomplete="off"/>
+                    Dark mode
+                </label>
+            </div>
+            <total-stat-block src="/api/teams/1/totalStats"/></total-stat-block>
+            <div class="subheader">
+                <h2>
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-stats" />
+                    </svg>
+                    Player Stats
+                </h2>
+            </div>
+            <stat-table src="/api/teams/1/stats"></stat-table>
+            <a href="team.html">
+                <h3>
+                    <svg class="icon">
+                        <use href="/icons/base.svg#icon-team" />
+                    </svg>
+                    Back to Team
+                </h3>
+            </a>
+        </mu-auth>
     </body>
 </html>

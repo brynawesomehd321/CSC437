@@ -72,8 +72,8 @@ async function openDatabase() {
         CREATE TABLE IF NOT EXISTS teams (
             teamId INTEGER PRIMARY KEY AUTOINCREMENT,
             teamName TEXT UNIQUE NOT NULL,
-            userId INTEGER NOT NULL,
-            FOREIGN KEY (userId) REFERENCES users(userId)
+            email INTEGER NOT NULL,
+            FOREIGN KEY (email) REFERENCES users(email)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE
         );`;
@@ -102,6 +102,7 @@ async function openDatabase() {
   const createGamesTableSql = `
         CREATE TABLE IF NOT EXISTS games (
             gameId INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
             location TEXT NOT NULL,
             date TEXT NOT NULL,
             teamId INTEGER NOT NULL,

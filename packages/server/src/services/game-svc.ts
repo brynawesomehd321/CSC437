@@ -23,16 +23,24 @@ class GameService {
         return row as Game;
     }
 
+    //get games for a given team
+    async getGamesByTeamId(teamId: number): Promise<Array<Game>> {
+        const db = await dbPromise;
+        const sql = `SELECT * FROM games WHERE teamId = ?`;
+        const row = await db.all(sql, [teamId]);
+        return row as Array<Game>;
+    }
+
     //create
     async createGame(game: Game): Promise<Game> {
         const db = await dbPromise;
-        const { location, date, teamId } = game;
+        const { title, location, date, teamId } = game;
         //Check if team exists
         const team = await teamService.getTeamById(teamId);
         if (!team) throw new Error("Team does not exist");
 
-        const sql = `INSERT INTO games (location, date, teamId) VALUES (?, ?, ?)`;
-        const result = await db.run(sql, [location, date, Number(teamId)]);
+        const sql = `INSERT INTO games (title, location, date, teamId) VALUES (?, ?, ?, ?)`;
+        const result = await db.run(sql, [title, location, date, Number(teamId)]);
         if(result.lastID) {
             const createdGame = await this.getGameById(result.lastID);
             return createdGame;

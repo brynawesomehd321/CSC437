@@ -57,12 +57,13 @@ svg.icon {
 }
 
 .header {
-    display: flex;
+    display: grid;
+    grid-template-columns: [start] 1fr 1fr 1fr [end];
+    gap: var(--margin);
+    align-items: baseline;
     position: sticky;
     top: 0;
     z-index: 1000;
-    align-items: baseline;
-    justify-content: space-between;
     background-color: var(--color-background-header);
     color: var(--color-header);
     text-align: var(--text-align);
@@ -70,6 +71,19 @@ svg.icon {
     font-style: var(--font-style-header);
     font-family: var(--font-family-header);
     padding: var(--padding);
+}
+
+/* Position each grid item */
+.header > :first-child {
+    justify-self: start;   /* home symbol aligned left */
+}
+
+.header > :nth-child(2) {
+    justify-self: center;  /* title centered (default text-align still applies) */
+}
+
+.header > :last-child {
+    justify-self: end;     /* login button aligned right */
 }
 
 .subheader {

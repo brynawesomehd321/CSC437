@@ -34,12 +34,16 @@ module.exports = __toCommonJS(teamRouter_exports);
 var import_express = __toESM(require("express"));
 var import_team_svc = __toESM(require("../services/team-svc"));
 var import_player_svc = __toESM(require("../services/player-svc"));
-const teamRouter = import_express.default.Router({ mergeParams: true });
+var import_stat_svc = __toESM(require("../services/stat-svc"));
+var import_game_svc = __toESM(require("../services/game-svc"));
+const teamRouter = import_express.default.Router();
 const teamService = new import_team_svc.default();
 const playerService = new import_player_svc.default();
+const statService = new import_stat_svc.default();
+const gameService = new import_game_svc.default();
 teamRouter.get("/", (req, res) => {
-  const { userId } = req.params;
-  teamService.index(Number(userId)).then((data) => res.json(data)).catch((err) => res.status(500).send(err));
+  const { email } = req.query;
+  teamService.index(String(email)).then((data) => res.json(data)).catch((err) => res.status(500).send(err));
 });
 teamRouter.get("/:teamId", (req, res) => {
   const { teamId } = req.params;
@@ -47,8 +51,19 @@ teamRouter.get("/:teamId", (req, res) => {
 });
 teamRouter.get("/:teamId/roster", (req, res) => {
   const { teamId } = req.params;
-  console.log(teamId);
   playerService.getPlayersByTeam(Number(teamId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+});
+teamRouter.get("/:teamId/schedule", (req, res) => {
+  const { teamId } = req.params;
+  gameService.getGamesByTeamId(Number(teamId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+});
+teamRouter.get("/:teamId/stats", (req, res) => {
+  const { teamId } = req.params;
+  statService.getStatByTeamId(Number(teamId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+});
+teamRouter.get("/:teamId/totalStats", (req, res) => {
+  const { teamId } = req.params;
+  statService.getAllTeamStats(Number(teamId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
 teamRouter.post("/", (req, res) => {
   const newTeam = req.body;

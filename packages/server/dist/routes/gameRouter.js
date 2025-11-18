@@ -33,14 +33,20 @@ __export(gameRouter_exports, {
 module.exports = __toCommonJS(gameRouter_exports);
 var import_express = __toESM(require("express"));
 var import_game_svc = __toESM(require("../services/game-svc"));
+var import_stat_svc = __toESM(require("../services/stat-svc"));
 const gameRouter = import_express.default.Router();
 const gameService = new import_game_svc.default();
+const statService = new import_stat_svc.default();
 gameRouter.get("/", (_, res) => {
   gameService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
 });
 gameRouter.get("/:gameId", (req, res) => {
   const { gameId } = req.params;
   gameService.getGameById(Number(gameId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+});
+gameRouter.get("/:gameId/stats", (req, res) => {
+  const { gameId } = req.params;
+  statService.getStatsByGameId(Number(gameId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
 gameRouter.post("/", (req, res) => {
   const newGame = req.body;

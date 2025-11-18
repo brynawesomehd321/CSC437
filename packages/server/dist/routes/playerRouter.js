@@ -48,6 +48,10 @@ playerRouter.get("/:playerId/stats", (req, res) => {
   const { playerId } = req.params;
   statService.getStatByPlayerId(Number(playerId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
+playerRouter.get("/:playerId/totalStats", (req, res) => {
+  const { playerId } = req.params;
+  statService.getAllPlayerStats(Number(playerId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+});
 playerRouter.post("/", (req, res) => {
   const newPlayer = req.body;
   playerService.createPlayer(newPlayer).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));

@@ -8,51 +8,46 @@
     </head>
     <body>
         <script src="/scripts/darkmode.js"></script>
-        <div class="header">
-            <span>
-                <a href="index.html">
+        <script type="module">
+            import { HeaderElement } from "/src/header.ts";
+            import { TeamInfoElement } from "/src/teamInfo.ts";
+            import { define, Auth } from "@calpoly/mustang";
+
+            define({
+                "page-header": HeaderElement,
+                "team-info": TeamInfoElement,
+                "mu-auth": Auth.Provider
+            });
+        </script>
+        <mu-auth provides="stats:auth">
+            <page-header></page-header>
+            <div class="subheader">
+                <h2>
                     <svg class="icon">
-                        <use href="/icons/base.svg#icon-home" />
+                        <use href="/icons/base.svg#icon-team" />
                     </svg>
-                </a>
-            </span>
-            <h1>Stat Tracker</h1>
-            <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
-                <input type="checkbox" autocomplete="off"/>
-                Dark mode
-            </label>
-        </div>
-        <div class="subheader">
-            <h2>
-                <svg class="icon">
-                    <use href="/icons/base.svg#icon-team" />
-                </svg>
-                SLO Motion
-            </h2>
-        </div>
-        <div style="display: flex; 
-            align-items: baseline; 
-            justify-content: space-between;
-            margin: var(--margin);
-            padding: var(--padding);
-        ">
-            <p>Team Name: SLO Motion</p>
-            <p>Division: College</p>
-            <p>Number of Players: 25</p>
-        </div>
-        <div class="subheader">
-                <h2>Team Access</h2>
+                    SLO Motion
+                </h2>
+                <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
+                    <input type="checkbox" autocomplete="off"/>
+                    Dark mode
+                </label>
             </div>
-        <div class="grid">
-            <a href="roster.html">
-                <h2>Team Roster</h2>
-            </a>
-            <a href="stats.html">
-                <h2>Team Stats</h2>
-            </a>
-            <a href="schedule.html">
-                <h2>Team Schedule</h2>
-            </a>
-        </div>
+            <team-info src="/api/teams/1"></team-info>
+            <div class="subheader">
+                    <h2>Team Access</h2>
+                </div>
+            <div class="grid">
+                <a href="roster.html">
+                    <h2>Team Roster</h2>
+                </a>
+                <a href="stats.html">
+                    <h2>Team Stats</h2>
+                </a>
+                <a href="schedule.html">
+                    <h2>Team Schedule</h2>
+                </a>
+            </div>
+        </mu-auth>
     </body>
 </html>

@@ -1,5 +1,4 @@
-import{i as d,a as g,O as h,e as v,x as n,r as u,b as c,d as b,c as y}from"./mustang-DkBCA8E-.js";import{C as p}from"./cardGrid-CMCv4JGw.js";const x=d`
-    h1 {
+h1 {
     text-align: var(--text-align);
     font-size: var(--font-size-header);
     font-style: var(--font-style-header);
@@ -58,12 +57,13 @@ svg.icon {
 }
 
 .header {
-    display: flex;
+    display: grid;
+    grid-template-columns: [start] 1fr 1fr 1fr [end];
+    gap: var(--margin);
+    align-items: baseline;
     position: sticky;
     top: 0;
     z-index: 1000;
-    align-items: baseline;
-    justify-content: space-between;
     background-color: var(--color-background-header);
     color: var(--color-header);
     text-align: var(--text-align);
@@ -71,6 +71,19 @@ svg.icon {
     font-style: var(--font-style-header);
     font-family: var(--font-family-header);
     padding: var(--padding);
+}
+
+/* Position each grid item */
+.header > :first-child {
+    justify-self: start;   /* home symbol aligned left */
+}
+
+.header > :nth-child(2) {
+    justify-self: center;  /* title centered (default text-align still applies) */
+}
+
+.header > :last-child {
+    justify-self: end;     /* login button aligned right */
 }
 
 .subheader {
@@ -143,47 +156,3 @@ svg.icon {
         margin-right: 5px;
     }
 }
-`,m={styles:x};var k=Object.defineProperty,f=(s,e,r,z)=>{for(var a=void 0,o=s.length-1,l;o>=0;o--)(l=s[o])&&(a=l(e,r,a)||a);return a&&k(e,r,a),a};const i=class i extends g{constructor(){super(...arguments),this._authObserver=new h(this,"stats:auth"),this.loggedIn=!1}connectedCallback(){super.connectedCallback(),this._authObserver.observe(e=>{const{user:r}=e;r&&r.authenticated?(this.loggedIn=!0,this.userid=r.username):(this.loggedIn=!1,this.userid=void 0)})}renderSignOutButton(){return n`
-            <button
-                @click=${e=>{v.relay(e,"auth:message",["auth/signout"])}}
-            >
-                Sign Out
-            </button>
-        `}renderSignInButton(){return n`
-        <a href="/login.html">
-            Sign In…
-        </a>
-    `}render(){return n`
-        <section class="header">
-            <span>
-                <a href="index.html">
-                    <svg class="icon">
-                        <use href="/icons/base.svg#icon-home" />
-                    </svg>
-                </a>
-            </span>
-            <h1>Stat Tracker</h1>
-            <a class="user" slot="actuator">
-                ${this.userid||"Guest"}
-                ${this.loggedIn?this.renderSignOutButton():this.renderSignInButton()}
-            </a>
-        </section>
-        `}};i.styles=[u.styles,m.styles,d`
-            .user {
-                font-size: 20px;
-            }
-
-            button {
-                padding: var(--padding);
-                font-family: var(--font-family-body);
-                background-color: white;
-                border: 1px solid var(--color-accent);
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                transition: box-shadow 0.3s ease;
-            }
-
-            button:hover {
-                box-shadow: 0 4px 8px var(--color-hover);
-            }
-        `];let t=i;f([c()],t.prototype,"loggedIn");f([c()],t.prototype,"userid");b({"card-grid":p,"page-header":t,"mu-auth":y.Provider});

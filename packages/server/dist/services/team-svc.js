@@ -24,10 +24,10 @@ module.exports = __toCommonJS(team_svc_exports);
 var import_sqlite3 = require("./sqlite3");
 class TeamService {
   //index
-  async index(userId) {
+  async index(email) {
     const db = await import_sqlite3.dbPromise;
-    const sql = `SELECT * FROM teams WHERE userId = ?`;
-    const teams = await db.all(sql, [userId]);
+    const sql = `SELECT * FROM teams WHERE email = ?`;
+    const teams = await db.all(sql, [email]);
     return teams;
   }
   //get
@@ -40,9 +40,9 @@ class TeamService {
   //create
   async createTeam(team) {
     const db = await import_sqlite3.dbPromise;
-    const { teamName, userId } = team;
-    const sql = `INSERT INTO teams (teamName, userId) VALUES (?, ?)`;
-    const result = await db.run(sql, [teamName, userId]);
+    const { teamName, email } = team;
+    const sql = `INSERT INTO teams (teamName, email) VALUES (?, ?)`;
+    const result = await db.run(sql, [teamName, email]);
     if (result.lastID) {
       const createdTeam = await this.getTeamById(result.lastID);
       return createdTeam;
@@ -52,10 +52,10 @@ class TeamService {
   }
   //put
   async updateTeam(updatedTeam, teamId) {
-    const { teamName, userId } = updatedTeam;
+    const { teamName, email } = updatedTeam;
     const db = await import_sqlite3.dbPromise;
-    const sql = `UPDATE teams SET teamName = ?, userId = ? WHERE teamId = ?`;
-    const result = await db.run(sql, [teamName, userId, teamId]);
+    const sql = `UPDATE teams SET teamName = ?, email = ? WHERE teamId = ?`;
+    const result = await db.run(sql, [teamName, email, teamId]);
     if (result.changes) {
       return updatedTeam;
     } else {

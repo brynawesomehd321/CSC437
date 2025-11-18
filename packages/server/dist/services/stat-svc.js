@@ -51,6 +51,76 @@ class StatService {
     const row = await db.all(sql, [playerId]);
     return row;
   }
+  //get all individual stats for a team
+  async getStatByTeamId(teamId) {
+    const db = await import_sqlite3.dbPromise;
+    const sql = `
+            SELECT s.*
+            FROM stats s
+            JOIN players p ON s.playerId = p.playerId
+            WHERE p.teamId = ?
+        ;`;
+    const row = await db.all(sql, [teamId]);
+    return row;
+  }
+  //get all stats for a game
+  async getStatsByGameId(gameId) {
+    const db = await import_sqlite3.dbPromise;
+    const sql = `
+            SELECT *
+            FROM stats
+            WHERE gameId = ?
+        ;`;
+    const row = await db.all(sql, [gameId]);
+    return row;
+  }
+  //get a total count of all stats for a TEAM
+  /*Returns an object like this:
+      {
+      "totalScores": 15,
+      "totalBlocks": 7,
+      "totalDrops": 3,
+      "totalIncompletions": 2
+      }
+  */
+  async getAllTeamStats(teamId) {
+    const db = await import_sqlite3.dbPromise;
+    const sql = `
+            SELECT 
+                SUM(CASE WHEN s.statType = 'score' THEN 1 ELSE 0 END) AS totalScores,
+                SUM(CASE WHEN s.statType = 'block' THEN 1 ELSE 0 END) AS totalBlocks,
+                SUM(CASE WHEN s.statType = 'drop' THEN 1 ELSE 0 END) AS totalDrops,
+                SUM(CASE WHEN s.statType = 'incompletion' THEN 1 ELSE 0 END) AS totalIncompletions
+            FROM stats s
+            JOIN players p ON s.playerId = p.playerId
+            WHERE p.teamId = ?;
+        `;
+    const result = await db.get(sql, [teamId]);
+    return result;
+  }
+  //get a total count of all stats for a PLAYER
+  /*Returns an object like this:
+      {
+      "totalScores": 15,
+      "totalBlocks": 7,
+      "totalDrops": 3,
+      "totalIncompletions": 2
+      }
+  */
+  async getAllPlayerStats(playerId) {
+    const db = await import_sqlite3.dbPromise;
+    const sql = `
+            SELECT 
+                SUM(CASE WHEN statType = 'score' THEN 1 ELSE 0 END) AS totalScores,
+                SUM(CASE WHEN statType = 'block' THEN 1 ELSE 0 END) AS totalBlocks,
+                SUM(CASE WHEN statType = 'drop' THEN 1 ELSE 0 END) AS totalDrops,
+                SUM(CASE WHEN statType = 'incompletion' THEN 1 ELSE 0 END) AS totalIncompletions
+            FROM stats
+            WHERE playerId = ?;
+        `;
+    const result = await db.get(sql, [playerId]);
+    return result;
+  }
   //get
   async getStatById(statId) {
     const db = await import_sqlite3.dbPromise;

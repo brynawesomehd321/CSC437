@@ -12,7 +12,7 @@ export class HeaderElement extends LitElement {
     loggedIn = false;
 
     @state()
-    userid?: string;
+    userId?: string;
 
     connectedCallback() {
         super.connectedCallback();
@@ -22,10 +22,10 @@ export class HeaderElement extends LitElement {
 
             if (user && user.authenticated ) {
                 this.loggedIn = true;
-                this.userid = user.username;
+                this.userId = user.username;
             } else {
                 this.loggedIn = false;
-                this.userid = undefined;
+                this.userId = undefined;
             }
         });
     }
@@ -62,7 +62,7 @@ export class HeaderElement extends LitElement {
             </span>
             <h1>Stat Tracker</h1>
             <a class="user" slot="actuator">
-                ${this.userid || "Guest"}
+                ${this.userId || "Guest"}
                 ${this.loggedIn ?
                     this.renderSignOutButton() :
                     this.renderSignInButton()
