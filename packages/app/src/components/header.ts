@@ -1,33 +1,55 @@
 // scripts/header.js
-import { html, css, LitElement } from "lit";
+import { html, css } from "lit";
 import reset from "../styles/reset.css.ts";
 import page from "../styles/page.css.ts";
 import { state } from "lit/decorators.js";
-import { Auth, Observer, Events } from "@calpoly/mustang";
+import { Auth, Observer, Events, View } from "@calpoly/mustang";
+import { User } from "server/models";
+import { Model } from "../model";
+import { Msg } from "../messages";
 
-export class HeaderElement extends LitElement {
-    _authObserver = new Observer<Auth.Model>(this, "stats:auth");
+export class HeaderElement extends View<Model, Msg> {
 
     @state()
     loggedIn = false;
 
-    @state()
-    userId?: string;
+    constructor() {
+        super("stats:model");
+    }
+
+    _authObserver = new Observer<Auth.Model>(this, "stats:auth");
+    _user?: Auth.User;
+
+    get authorization(): { Authorization?: string } {
+        if (this._user && this._user.authenticated)
+            return {
+                Authorization:
+                    `Bearer ${(this._user as Auth.AuthenticatedUser).token}`
+            };
+        else return {};
+    }
 
     connectedCallback() {
         super.connectedCallback();
 
         this._authObserver.observe((auth: Auth.Model) => {
-            const { user } = auth;
+            this._user = auth.user;  // store the authenticated user
 
-            if (user && user.authenticated ) {
+            if (this._user && this._user.authenticated) {
                 this.loggedIn = true;
-                this.userId = user.username;
+                this.dispatchMessage([
+                    "user/request",
+                    { email: this._user?.username }
+                ]);                
             } else {
                 this.loggedIn = false;
-                this.userId = undefined;
             }
         });
+    }
+
+    // Read the actual user from global Model
+    get user(): User | undefined {
+        return this.model?.user;
     }
 
     renderSignOutButton() {
@@ -61,8 +83,8 @@ export class HeaderElement extends LitElement {
                 </a>
             </span>
             <h1>Stat Tracker</h1>
-            <a class="user" slot="actuator">
-                ${this.userId || "Guest"}
+            <a class="user" slot="actuator" href=${this.user?.userid ? `/app/${this.user?.userid}` : `/app`}>
+                ${this.user?.email || "Guest"}
                 ${this.loggedIn ?
                     this.renderSignOutButton() :
                     this.renderSignInButton()

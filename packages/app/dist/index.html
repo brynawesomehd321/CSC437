@@ -12,13 +12,16 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <title>My Teams</title>
-      <script type="module" crossorigin src="/assets/index-gWiWsgkw.js"></script>
+      <script type="module" crossorigin src="/assets/index-D8LFzOv-.js"></script>
     </head>
     <body>
+        <script src="/scripts/darkmode.js"></script>
         <mu-history provides="stats:history">
-            <mu-auth provides="stats:auth">
-                <page-header></page-header>
-                <mu-switch></mu-switch>
+            <mu-auth provides="stats:auth" redirect="/login.html">
+                <mu-store provides="stats:model">
+                    <page-header></page-header>
+                    <mu-switch></mu-switch>
+                </mu-store>
             </mu-auth>
         </mu-history>
     </body>

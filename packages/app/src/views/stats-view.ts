@@ -1,11 +1,51 @@
-import { html, LitElement } from "lit";
+import { html } from "lit";
 import reset from "../styles/reset.css";
 import page from "../styles/page.css";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
+import { Stat, Player } from "server/models";
+import { View } from "@calpoly/mustang";
+import { Model } from "../model";
+import { Msg } from "../messages";
 
-export class StatsViewElement extends LitElement {
-    @property()
+export class StatsViewElement extends View<Model, Msg> {
+    @property({ attribute: "team-id" })
     teamId?: number;
+
+    @state()
+    get teamStats(): Array<Stat> {
+        return this.model.teamStats ?? [];
+    }
+
+    @state()
+    get roster(): Array<Player> {
+        return this.model.roster ?? [];
+    }
+
+    constructor() {
+        super("stats:model");
+    }
+
+    attributeChangedCallback(
+        name: string,
+        oldValue: string,
+        newValue: string
+    ) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        if (
+            name === "team-id" &&
+            oldValue !== newValue &&
+            newValue
+        ) {
+            this.dispatchMessage([
+            "team/stats/request",
+            { teamId: Number(newValue) }
+            ]);
+            this.dispatchMessage([
+            "team/roster/request",
+            { teamId: Number(newValue) }
+            ]);
+        }
+    }
 
     render() {
         return html`
@@ -30,7 +70,7 @@ export class StatsViewElement extends LitElement {
                     Player Stats
                 </h2>
             </div>
-            <stat-table src="/api/teams/${this.teamId}/stats"></stat-table>
+            <stat-table .stats=${this.teamStats} .players=${this.roster} team-id=${this.teamId}></stat-table>
             <a href="/app/team/${this.teamId}">
                 <h3>
                     <svg class="icon">

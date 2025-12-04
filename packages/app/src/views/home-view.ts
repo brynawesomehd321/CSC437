@@ -1,8 +1,49 @@
-import { html, LitElement } from "lit";
+import { html } from "lit";
 import reset from "../styles/reset.css";
 import page from "../styles/page.css";
+import { state } from "lit/decorators.js";
+import { Msg } from "../messages";
+import { Model } from "../model";
+import { Observer, Auth } from "@calpoly/mustang";
+import { View } from "@calpoly/mustang";
+import { Team } from "server/models";
 
-export class HomeViewElement extends LitElement {
+export class HomeViewElement extends View<Model, Msg> {
+
+    @state()
+    get teams(): Array<Team> | undefined {
+        return this.model.userTeams;
+    }
+
+    constructor() {
+        super("stats:model");
+    }
+
+    _authObserver = new Observer<Auth.Model>(this, "stats:auth");
+    _user?: Auth.User;
+
+    get authorization(): { Authorization?: string } {
+        if (this._user && this._user.authenticated)
+            return {
+                Authorization:
+                    `Bearer ${(this._user as Auth.AuthenticatedUser).token}`
+            };
+        else return {};
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        this._authObserver.observe((auth: Auth.Model) => {
+            this._user= auth.user;
+            if (this._user && this._user.authenticated) {
+                this.dispatchMessage([
+                    "user/teams/request",
+                    { email: this._user?.username }
+                ]);
+            }
+        });
+    }
+
     render() {
         return html`
             <div class="subheader">
@@ -12,7 +53,7 @@ export class HomeViewElement extends LitElement {
                     Dark mode
                 </label>
             </div>
-            <card-grid src="/api/teams"></card-grid>
+            <card-grid .cards=${this.teams} dataType="teams"></card-grid>
         `;
     }
 

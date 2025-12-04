@@ -1,49 +1,62 @@
-import { html, LitElement } from "lit";
+import { html, css } from "lit";
 import reset from "../styles/reset.css.ts";
 import page from "../styles/page.css.ts";
 import { property, state } from "lit/decorators.js";
-import { Observer, Auth } from "@calpoly/mustang";
-import { Game } from "server/models";
+import { View } from "@calpoly/mustang";
+import { Game, Player, Stat } from "server/models";
+import { Msg } from "../messages.ts";
+import { Model } from "../model.ts";
 
-export class GameViewElement extends LitElement {
-    @property()
+export class GameViewElement extends View<Model, Msg> {
+    @property({ attribute: "game-id" })
     gameId?: number;
 
-    @property()
+    @property({ attribute: "team-id" })
     teamId?: number;
 
     @state()
-    game?: Game;
-
-    _authObserver = new Observer<Auth.Model>(this, "stats:auth");
-    _user?: Auth.User;
-    
-    get authorization(): { Authorization?: string } {
-        if (this._user && this._user.authenticated)
-            return {
-                Authorization:
-                    `Bearer ${(this._user as Auth.AuthenticatedUser).token}`
-            };
-        else return {};
+    get game(): Game | undefined {
+        return this.model.game;
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-        this._authObserver.observe((auth: Auth.Model) => {
-            this._user= auth.user;
-            this.hydrate();
-        });
+    @state()
+    get gameStats(): Array<Stat> {
+        return this.model.gameStats ?? [];
     }
 
-    hydrate() {
-        fetch(`/api/games/${this.gameId}`, { headers: this.authorization })
-        .then(res => res.json())
-        .then((json: object) => {
-            if(json) {
-                this.game = json as Game;
-            }
-        })
-        .catch(err => console.error("Hydrate failed:", err));
+    @state()
+    get roster(): Array<Player> {
+        return this.model.roster ?? [];
+    }
+
+    constructor() {
+        super("stats:model");
+    }
+
+    attributeChangedCallback(
+        name: string,
+        oldValue: string,
+        newValue: string
+    ) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        if (
+            name === "game-id" &&
+            oldValue !== newValue &&
+            newValue
+        ) {
+            this.dispatchMessage([
+            "game/request",
+            { gameId: Number(newValue) }
+            ]);
+            this.dispatchMessage([
+            "game/stats/request",
+            { gameId: Number(newValue) }
+            ]);
+            this.dispatchMessage([
+            "team/roster/request",
+            { teamId: Number(this.teamId) }
+            ]);
+        }
     }
 
     render() {
@@ -56,7 +69,17 @@ export class GameViewElement extends LitElement {
                 ${this.game?.title}
             </h2>
         </div>
-        <stat-table src="/api/games/${this.gameId}/stats"></stat-table>
+        <section class="gameInfo">
+            <div class="infoPair">
+                <h3>Location:</h3>
+                <p>${this.game?.location}</p>
+            </div>
+            <div class="infoPair">
+                <h3>Date:</h3>
+                <p>${this.game?.date}</p>
+            </div>
+        </section>
+        <stat-table .stats=${this.gameStats} .players=${this.roster} team-id=${this.teamId}></stat-table>
         <a href="/app/team/${this.teamId}">
             <h3>
                 <svg class="icon">
@@ -69,6 +92,20 @@ export class GameViewElement extends LitElement {
     }
     static styles = [
         reset.styles,
-        page.styles
+        page.styles,
+        css`
+        .gameInfo {
+            display: grid; 
+            grid-template-columns: 1fr 1fr;
+            justify-items: center;
+            margin: var(--margin);
+            padding: var(--padding);
+        }
+        .infoPair {
+            display: flex;       /* lay out h3 and p horizontally */
+            align-items: center; /* vertically center h3 and p */
+            gap: 0.5rem;         /* space between h3 and p */
+        }
+        `
     ]
 }

@@ -2,7 +2,7 @@
 import { html, css, LitElement } from "lit";
 import reset from "../styles/reset.css.ts";
 import { property, state } from "lit/decorators.js";
-import { Stat, Player } from "server/models";
+import { Stat, Game } from "server/models";
 import pageCss from "../styles/page.css.ts";
 import statsCss from "../styles/stats.css.ts";
 
@@ -15,19 +15,19 @@ interface StatRow {
     incompletions: number;
 }
 
-export class StatTableElement extends LitElement {
+export class PlayerStatTableElement extends LitElement {
     @property({ type: Array })
     stats: Array<Stat> = [];
 
     @property({ type: Array })
-    players: Array<Player> = [];
+    games: Array<Game> = [];
 
     @property({ attribute: "team-id" })
     teamId?: number;
 
-    getPlayerName(playerId: number): string {
-        const player = this.players.find(p => p.playerId === playerId);
-        return player ? player.playerName : "Unknown";
+    getGameName(gameId: number): string {
+        const game = this.games.find(g => g.gameId === gameId);
+        return game ? game.title : "Unknown";
     }
 
     @state()
@@ -35,9 +35,9 @@ export class StatTableElement extends LitElement {
         const rows: Record<number, StatRow> = {};
 
         for (const stat of this.stats) {
-            if (!rows[stat.playerId]) {
-                rows[stat.playerId] = {
-                    name: this.getPlayerName(stat.playerId) ?? "Unknown",
+            if (!rows[stat.gameId]) {
+                rows[stat.gameId] = {
+                    name: this.getGameName(stat.gameId) ?? "Unknown",
                     scores: 0,
                     blocks: 0,
                     drops: 0,
@@ -46,10 +46,10 @@ export class StatTableElement extends LitElement {
             }
 
             switch (stat.statType) {
-                case "score": rows[stat.playerId].scores++; break;
-                case "block": rows[stat.playerId].blocks++; break;
-                case "drop": rows[stat.playerId].drops++; break;
-                case "incompletion": rows[stat.playerId].incompletions++; break;
+                case "score": rows[stat.gameId].scores++; break;
+                case "block": rows[stat.gameId].blocks++; break;
+                case "drop": rows[stat.gameId].drops++; break;
+                case "incompletion": rows[stat.gameId].incompletions++; break;
             }
         }
 
@@ -64,15 +64,15 @@ export class StatTableElement extends LitElement {
         }
 
         return rows.map((row) => {
-            // Find the corresponding player to get their ID
-            const player = this.players.find(p => p.playerName === row.name);
-            const playerId = player ? player.playerId : null;
+            // Find the corresponding game to get their ID
+            const game = this.games.find(g => g.title === row.name);
+            const gameId = game ? game.gameId : null;
 
             return html`
             <div class="stat-row">
                 <dt>
-                    ${playerId
-                        ? html`<a href="/app/team/${this.teamId}/player/${playerId}">${row.name}</a>`
+                    ${gameId
+                        ? html`<a href="/app/team/${this.teamId}/schedule/${gameId}">${row.name}</a>`
                         : row.name
                     }
                 </dt>

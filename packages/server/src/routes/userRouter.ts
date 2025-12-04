@@ -10,20 +10,29 @@ const teamsService = new TeamService();
 //get list of users
 userRouter.get("/", (_, res: Response) => {
     userService.index()
-        .then((data: Array<User | undefined>) => res.json(data))
+        .then((data: Array<User>) => res.json(data))
         .catch((err) => res.status(500).send(err));
 });
 
 //get user by id
-userRouter.get('/:userId', (req: Request, res: Response) => {
-    const { userId } = req.params;
+userRouter.get('/:userid', (req: Request, res: Response) => {
+    const { userid } = req.params;
 
-    userService.getUserById(Number(userId))
-        .then((data: User | undefined) => res.json(data))
+    userService.getUserById(Number(userid))
+        .then((data: User) => res.json(data))
         .catch((err) => res.status(404).send(err));
 });
 
-//create user (userId, fullName, email)
+//get user by email
+userRouter.get('/email/:email', (req: Request, res: Response) => {
+    const { email } = req.params;
+
+    userService.getUserByEmail(email)
+        .then((data: User) => res.json(data))
+        .catch((err) => res.status(404).send(err));
+});
+
+//create user (userid, fullName, email)
 userRouter.post('/', (req: Request, res: Response) => {
     const newUser = req.body;
 
@@ -33,18 +42,18 @@ userRouter.post('/', (req: Request, res: Response) => {
 })
 
 //update user
-userRouter.put('/:userId', (req: Request, res: Response) => {
+userRouter.put('/:userid', (req: Request, res: Response) => {
     const updatedUser = req.body;
-    const { userId } = req.params;
-    userService.updateUser(updatedUser, Number(userId))
+    const { userid } = req.params;
+    userService.updateUser(updatedUser, Number(userid))
         .then((data: User) => res.json(data))
         .catch((err) => res.status(404).send(err));
 });
 
 //delete user
-userRouter.delete('/:userId', (req: Request, res: Response) => {
-    const { userId } = req.params;
-    userService.removeUser(Number(userId))
+userRouter.delete('/:userid', (req: Request, res: Response) => {
+    const { userid } = req.params;
+    userService.removeUser(Number(userid))
         .then(() => res.status(204).end())
         .catch((err) => res.status(404).send(err));
 });

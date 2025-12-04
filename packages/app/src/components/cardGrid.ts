@@ -1,85 +1,49 @@
 // src/cardGrid.ts
 import { html, css, LitElement } from "lit";
 import reset from "../styles/reset.css.ts";
-import { property, state } from "lit/decorators.js";
-import { Observer, Auth } from "@calpoly/mustang";
+import { property } from "lit/decorators.js";
 import { Team } from "server/models";
 import { Player } from "server/models";
 import pageCss from "../styles/page.css.ts";
 
 export class CardGridElement extends LitElement {
-    @property()
-    src?: string;
+    @property({ type: Array })
+    cards: Array<Player | Team> = [];
+
+    @property({ attribute: "team-id" })
+    teamId?: number;
 
     @property()
-    dataType?: string;
-
-    @state()
-    cards: any[] = [];
-
-    _authObserver = new Observer<Auth.Model>(this, "stats:auth");
-    _user?: Auth.User;
-
-    get authorization(): { Authorization?: string } {
-        if (this._user && this._user.authenticated)
-            return {
-                Authorization:
-                    `Bearer ${(this._user as Auth.AuthenticatedUser).token}`
-            };
-        else return {};
-    }
-
-    connectedCallback() {
-        super.connectedCallback();
-        this._authObserver.observe((auth: Auth.Model) => {
-            this._user= auth.user;
-            if (this.src) this.hydrate(this.src); 
-        });
-    }
-
-    checkSrc(src: string): void {
-        if (src.includes("teams")) {
-            this.dataType = "teams"
-        } 
-        if (src.includes("roster")) {
-            this.dataType = "roster"
-        }
-    }
-
-    hydrate(src: string) {
-        this.checkSrc(src);
-        const url = `${src}?email=${this._user?.username}`
-        fetch(url, { headers: this.authorization })
-        .then(res => res.json())
-        .then((json: object) => {
-            if(json) {
-                if (this.dataType === "teams")
-                    this.cards = json as Array<Team>;
-                else if (this.dataType === "roster")
-                    this.cards = json as Array<Player>;
-            }
-        })
-        .catch((err) => console.error(err));
-    }
+    dataType?: "teams" | "roster";
 
     renderCardGrid() {
         if (this.dataType === "teams") {
-            return this.cards.map((card) => 
-                html`
-                    <a href="/app/team/${card.teamId}">
-                        <h2>${card.teamName}</h2>
-                    </a>
-                `
-            );
+            if (!this.cards || this.cards.length === 0) return html`
+                <h2>No teams yet!</h2>
+            `;
+            return this.cards.map((card) => {
+                if ("teamName" in card) { // type guard
+                    return html`
+                        <a href="/app/team/${card.teamId}">
+                            <h2>${card.teamName}</h2>
+                        </a>
+                    `;
+                }
+            });
         }
-        else {
-            return this.cards.map((card) =>
-                html`
-                    <a href="/app/player/${card.playerId}">
-                        <h3>${card.playerName}</h3>
-                    </a>
-                `
-            );
+        else if (this.dataType === "roster") {
+            if (!this.cards || this.cards.length === 0) return html`
+                <h2>No players yet!</h2>
+            `;
+            return this.cards.map((card) => {
+                if ("playerName" in card) { // type guard
+                    return html`
+                        <a href="/app/team/${this.teamId}/player/${card.playerId}">
+                            <h3>${card.playerName}</h3>
+                        </a>
+                    `;
+                }
+            });
         }
     }
 

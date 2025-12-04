@@ -13,10 +13,18 @@ class UserService {
     }
 
     //get
-    async getUserById(userId: number): Promise<User> {
+    async getUserById(userid: number): Promise<User> {
         const db = await dbPromise;
-        const sql = `SELECT * FROM users WHERE userId = ?`;
-        const row = await db.get(sql, [userId]);
+        const sql = `SELECT * FROM users WHERE userid = ?`;
+        const row = await db.get(sql, [userid]);
+        return row as User;
+    }
+
+    //get user by email
+    async getUserByEmail(email: string): Promise<User> {
+        const db = await dbPromise;
+        const sql = `SELECT * FROM users WHERE email = ?`;
+        const row = await db.get(sql, [email]);
         return row as User;
     }
 
@@ -36,11 +44,11 @@ class UserService {
     }
 
     //put
-    async updateUser(updatedUser: User, userId: number): Promise<User> {
+    async updateUser(updatedUser: User, userid: number): Promise<User> {
         const { fullName, email } = updatedUser;
         const db = await dbPromise;
-        const sql = `UPDATE users SET fullName = ?, email = ? WHERE userId = ?`;
-        const result = await db.run(sql, [fullName, email, userId]);
+        const sql = `UPDATE users SET fullName = ?, email = ? WHERE userid = ?`;
+        const result = await db.run(sql, [fullName, email, userid]);
         if(result.changes) {
             return updatedUser;
         }
@@ -50,10 +58,10 @@ class UserService {
     }
 
     //delete
-    async removeUser(userId: number): Promise<void> {
+    async removeUser(userid: number): Promise<void> {
         const db = await dbPromise;
-        const sql = 'DELETE FROM users WHERE userId = ?'
-        const result = await db.run(sql, [userId]);
+        const sql = 'DELETE FROM users WHERE userid = ?'
+        const result = await db.run(sql, [userid]);
         if(result.changes === 0) {
             throw new Error("User not found or deletion failed");
         }

@@ -2,51 +2,17 @@
 import { html, css, LitElement } from "lit";
 import reset from "../styles/reset.css.ts";
 import page from "../styles/page.css.ts";
-import { property, state } from "lit/decorators.js";
-import { Observer, Auth } from "@calpoly/mustang";
+import { property } from "lit/decorators.js";
 import { Game} from "server/models";
 
 
 export class ScheduleTableElement extends LitElement {
-    @property()
-    src?: string;
 
-    @state()
+    @property({type: Array})
     games?: Array<Game>;
 
-    _authObserver = new Observer<Auth.Model>(this, "stats:auth");
-    _user?: Auth.User;
-    
-    get authorization(): { Authorization?: string } {
-        if (this._user && this._user.authenticated)
-            return {
-                Authorization:
-                    `Bearer ${(this._user as Auth.AuthenticatedUser).token}`
-            };
-        else return {};
-    }
-
-    connectedCallback() {
-        super.connectedCallback();
-        this._authObserver.observe((auth: Auth.Model) => {
-            this._user= auth.user;
-            if (this.src) this.hydrate(this.src);
-        });
-    }
-
-    hydrate(src: string) {
-        fetch(src, { headers: this.authorization })
-        .then(res => res.json())
-        .then((json: object) => {
-            if(json) {
-                this.games = json as Array<Game>;
-            }
-        })
-        .catch(err => console.error("Hydrate failed:", err));
-    }
-
     renderGames() {
-        if(!this.games) {
+        if(!this.games || this.games.length === 0) {
             return html`
                 <h2>No games yet...</h2>
             `
@@ -55,7 +21,7 @@ export class ScheduleTableElement extends LitElement {
                 html`
                     <div class="game-row">
                         <dt>
-                            <a href="/app/game/${game.gameId}">
+                            <a href="/app/team/${game.teamId}/schedule/${game.gameId}">
                                 ${game.title}
                             </a>
                         </dt>

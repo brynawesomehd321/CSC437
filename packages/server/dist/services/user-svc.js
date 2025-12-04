@@ -37,6 +37,13 @@ class UserService {
     const row = await db.get(sql, [userId]);
     return row;
   }
+  //get user by email
+  async getUserByEmail(email) {
+    const db = await import_sqlite3.dbPromise;
+    const sql = `SELECT * FROM users WHERE email = ?`;
+    const row = await db.get(sql, [email]);
+    return row;
+  }
   //create
   async createUser(user) {
     const db = await import_sqlite3.dbPromise;

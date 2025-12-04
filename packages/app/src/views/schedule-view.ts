@@ -1,11 +1,42 @@
-import { html, LitElement } from "lit";
+import { html } from "lit";
 import reset from "../styles/reset.css";
 import page from "../styles/page.css";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
+import { Game } from "server/models";
+import { Msg } from "../messages";
+import { Model } from "../model";
+import { View } from "@calpoly/mustang";
 
-export class ScheduleViewElement extends LitElement {
-    @property()
+export class ScheduleViewElement extends View<Model, Msg> {
+    @property({attribute: "team-id" })
     teamId?: number;
+
+    @state()
+    get schedule(): Array<Game> | undefined {
+        return this.model.schedule;
+    }
+
+    constructor() {
+        super("stats:model");
+    }
+
+    attributeChangedCallback(
+        name: string,
+        oldValue: string,
+        newValue: string
+    ) {
+        super.attributeChangedCallback(name, oldValue, newValue);
+        if (
+            name === "team-id" &&
+            oldValue !== newValue &&
+            newValue
+        ) {
+            this.dispatchMessage([
+            "team/schedule/request",
+            { teamId: Number(newValue) }
+            ]);
+        }
+    }
 
     render() {
         return html`
@@ -17,7 +48,7 @@ export class ScheduleViewElement extends LitElement {
                 SLO Motion Schedule
             </h2>
         </div>
-        <schedule-table src="/api/teams/${this.teamId}/schedule"></schedule-table>
+        <schedule-table .games=${this.schedule}></schedule-table>
         <a href="/app/team/${this.teamId}">
             <h3>
                 <svg class="icon">

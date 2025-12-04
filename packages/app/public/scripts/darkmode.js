@@ -9,7 +9,7 @@ function toggleDarkMode(target, checked) {
     "dark-mode:toggle", {
       bubbles: true,
       detail: { checked },
+      composed: true
   });
-
   target.dispatchEvent(customEvent);
 }

@@ -15,10 +15,13 @@
     </head>
     <body>
         <script type="module" src="/src/main.ts"></script>
+        <script src="/scripts/darkmode.js"></script>
         <mu-history provides="stats:history">
-            <mu-auth provides="stats:auth">
-                <page-header></page-header>
-                <mu-switch></mu-switch>
+            <mu-auth provides="stats:auth" redirect="/login.html">
+                <mu-store provides="stats:model">
+                    <page-header></page-header>
+                    <mu-switch></mu-switch>
+                </mu-store>
             </mu-auth>
         </mu-history>
     </body>

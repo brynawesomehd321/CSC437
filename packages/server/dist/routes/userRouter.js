@@ -44,6 +44,10 @@ userRouter.get("/:userId", (req, res) => {
   const { userId } = req.params;
   userService.getUserById(Number(userId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
+userRouter.get("/email/:email", (req, res) => {
+  const { email } = req.params;
+  userService.getUserByEmail(email).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+});
 userRouter.post("/", (req, res) => {
   const newUser = req.body;
   userService.createUser(newUser).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));
