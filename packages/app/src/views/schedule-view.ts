@@ -5,7 +5,7 @@ import { property, state } from "lit/decorators.js";
 import { Game } from "server/models";
 import { Msg } from "../messages";
 import { Model } from "../model";
-import { View } from "@calpoly/mustang";
+import { View, Form, History } from "@calpoly/mustang";
 
 export class ScheduleViewElement extends View<Model, Msg> {
     @property({attribute: "team-id" })
@@ -38,6 +38,29 @@ export class ScheduleViewElement extends View<Model, Msg> {
         }
     }
 
+    handleSubmit(event: Form.SubmitEvent<Game>) {
+
+        const newGame: Game = {
+            title: event.detail.title,
+            location: event.detail.location,
+            date: event.detail.date,
+            teamId: this.teamId!
+        };
+        this.dispatchMessage([
+            "game/save",
+            { game: newGame },
+            {
+                onSuccess: () => {
+                    History.dispatch(this, "history/navigate", {
+                        href: `/app/team/${this.teamId}/schedule`
+                    })
+                },
+                onFailure: (error: Error) =>
+                    console.log("ERROR:", error)
+            }
+        ]);
+    }
+
     render() {
         return html`
         <div class="subheader">
@@ -49,14 +72,25 @@ export class ScheduleViewElement extends View<Model, Msg> {
             </h2>
         </div>
         <schedule-table .games=${this.schedule}></schedule-table>
-        <a href="/app/team/${this.teamId}">
-            <h3>
-                <svg class="icon">
-                    <use href="/icons/base.svg#icon-team" />
-                </svg>
-                Back to Team
-            </h3>
-        </a>
+        <div class="centered-content">
+                <mu-form
+                    .init=${{title: "", location: "", date: ""}}
+                    @mu-form:submit=${this.handleSubmit} class="form">
+                    <label>
+                        Game Title:
+                        <input name="title" placeholder="Enter game name"/>
+                    </label>
+                    <label>
+                        Game Location:
+                        <input name="location" placeholder="Enter game location"/>
+                    </label>
+                    <label>
+                        Game Date:
+                        <input name="date" placeholder="Enter game date"/>
+                    </label>
+                </mu-form>
+                <back-button team-id=${this.teamId}></back-button>
+            </div>
         `
     }
     static styles = [

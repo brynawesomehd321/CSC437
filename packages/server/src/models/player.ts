@@ -1,5 +1,5 @@
 export interface Player {
-    playerId: number;
+    playerId?: number;
     playerName: string;
     playerNumber: number;
     teamId: number; // foreign key

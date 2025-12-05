@@ -17,7 +17,7 @@ const styles = css`
 
 .stat-row {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    grid-template-columns: repeat(5, 1fr);
     text-align: center;
     border-bottom: 1px solid var(--color-accent);
     padding: var(--padding);

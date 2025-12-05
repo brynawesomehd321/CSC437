@@ -56,10 +56,6 @@ export class StatsViewElement extends View<Model, Msg> {
                     </svg>
                     Team Stats
                 </h2>
-                <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
-                    <input type="checkbox" autocomplete="off"/>
-                    Dark mode
-                </label>
             </div>
             <total-stat-block src="/api/teams/${this.teamId}/totalStats"/></total-stat-block>
             <div class="subheader">
@@ -71,14 +67,9 @@ export class StatsViewElement extends View<Model, Msg> {
                 </h2>
             </div>
             <stat-table .stats=${this.teamStats} .players=${this.roster} team-id=${this.teamId}></stat-table>
-            <a href="/app/team/${this.teamId}">
-                <h3>
-                    <svg class="icon">
-                        <use href="/icons/base.svg#icon-team" />
-                    </svg>
-                    Back to Team
-                </h3>
-            </a>
+            <div class="centered-content">
+                <back-button team-id=${this.teamId}></back-button>
+            </div>
         `
     }
     static styles = [

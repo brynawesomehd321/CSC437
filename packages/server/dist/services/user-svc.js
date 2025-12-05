@@ -31,10 +31,10 @@ class UserService {
     return users;
   }
   //get
-  async getUserById(userId) {
+  async getUserById(userid) {
     const db = await import_sqlite3.dbPromise;
-    const sql = `SELECT * FROM users WHERE userId = ?`;
-    const row = await db.get(sql, [userId]);
+    const sql = `SELECT * FROM users WHERE userid = ?`;
+    const row = await db.get(sql, [userid]);
     return row;
   }
   //get user by email
@@ -58,11 +58,11 @@ class UserService {
     }
   }
   //put
-  async updateUser(updatedUser, userId) {
+  async updateUser(updatedUser, userid) {
     const { fullName, email } = updatedUser;
     const db = await import_sqlite3.dbPromise;
-    const sql = `UPDATE users SET fullName = ?, email = ? WHERE userId = ?`;
-    const result = await db.run(sql, [fullName, email, userId]);
+    const sql = `UPDATE users SET fullName = ?, email = ? WHERE userid = ?`;
+    const result = await db.run(sql, [fullName, email, userid]);
     if (result.changes) {
       return updatedUser;
     } else {
@@ -70,10 +70,10 @@ class UserService {
     }
   }
   //delete
-  async removeUser(userId) {
+  async removeUser(userid) {
     const db = await import_sqlite3.dbPromise;
-    const sql = "DELETE FROM users WHERE userId = ?";
-    const result = await db.run(sql, [userId]);
+    const sql = "DELETE FROM users WHERE userid = ?";
+    const result = await db.run(sql, [userid]);
     if (result.changes === 0) {
       throw new Error("User not found or deletion failed");
     }

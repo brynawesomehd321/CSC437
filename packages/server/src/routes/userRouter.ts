@@ -41,7 +41,7 @@ userRouter.post('/', (req: Request, res: Response) => {
         .catch((err) => res.status(500).send(err));
 })
 
-//update user
+//update user by email
 userRouter.put('/:userid', (req: Request, res: Response) => {
     const updatedUser = req.body;
     const { userid } = req.params;

@@ -60,7 +60,7 @@ export class PlayerStatTableElement extends LitElement {
         const rows = Object.values(this.statRows);
 
         if (!rows.length) {
-            return html`<h2>No stats to report yet...</h2>`;
+            return html`<h3>No stats to report yet...</h3>`;
         }
 
         return rows.map((row) => {
@@ -87,18 +87,20 @@ export class PlayerStatTableElement extends LitElement {
 
     override render() {
         return html`
-        <section class="stat-grid-header">
-            <h3>Name</h3>
-            <h3>Scores</h3>
-            <h3>Blocks</h3>
-            <h3>Drops</h3>
-            <h3>Incompletions</h3>
-        </section>
-        <section class="stat-grid-body">
-            <dl>
-                ${this.renderStatRows()}
-            </dl>
-        </section>
+        <div class="table">
+            <section class="stat-grid-header">
+                <h3>Name</h3>
+                <h3>Scores</h3>
+                <h3>Blocks</h3>
+                <h3>Drops</h3>
+                <h3>Incompletions</h3>
+            </section>
+            <section class="stat-grid-body">
+                <dl>
+                    ${this.renderStatRows()}
+                </dl>
+            </section>
+        </div>
         `
     }
     static styles = [
@@ -106,6 +108,9 @@ export class PlayerStatTableElement extends LitElement {
         pageCss.styles,
         statsCss.styles,
         css`
+        .table {
+            margin-bottom: var(--margin);
+        }
         `
     ];
 }

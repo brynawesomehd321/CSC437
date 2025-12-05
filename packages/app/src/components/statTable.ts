@@ -1,13 +1,16 @@
 // src/statTable.ts
-import { html, css, LitElement } from "lit";
+import { html, css } from "lit";
 import reset from "../styles/reset.css.ts";
 import { property, state } from "lit/decorators.js";
 import { Stat, Player } from "server/models";
 import pageCss from "../styles/page.css.ts";
 import statsCss from "../styles/stats.css.ts";
-
+import { View } from "@calpoly/mustang";
+import { Msg } from "../messages";
+import { Model } from "../model";
 
 interface StatRow {
+    statId: number;
     name: string;
     scores: number;
     blocks: number;
@@ -15,7 +18,7 @@ interface StatRow {
     incompletions: number;
 }
 
-export class StatTableElement extends LitElement {
+export class StatTableElement extends View<Model, Msg> {
     @property({ type: Array })
     stats: Array<Stat> = [];
 
@@ -24,6 +27,9 @@ export class StatTableElement extends LitElement {
 
     @property({ attribute: "team-id" })
     teamId?: number;
+
+    @state()
+    _error?: Error;
 
     getPlayerName(playerId: number): string {
         const player = this.players.find(p => p.playerId === playerId);
@@ -35,8 +41,9 @@ export class StatTableElement extends LitElement {
         const rows: Record<number, StatRow> = {};
 
         for (const stat of this.stats) {
-            if (!rows[stat.playerId]) {
+            if (!rows[stat.playerId] && stat.statId) {
                 rows[stat.playerId] = {
+                    statId: stat.statId,
                     name: this.getPlayerName(stat.playerId) ?? "Unknown",
                     scores: 0,
                     blocks: 0,
@@ -59,8 +66,8 @@ export class StatTableElement extends LitElement {
     renderStatRows() {
         const rows = Object.values(this.statRows);
 
-        if (!rows.length) {
-            return html`<h2>No stats to report yet...</h2>`;
+        if (!rows || !rows.length) {
+            return html`<h3>No stats to report yet...</h3>`;
         }
 
         return rows.map((row) => {
@@ -87,18 +94,20 @@ export class StatTableElement extends LitElement {
 
     override render() {
         return html`
-        <section class="stat-grid-header">
-            <h3>Name</h3>
-            <h3>Scores</h3>
-            <h3>Blocks</h3>
-            <h3>Drops</h3>
-            <h3>Incompletions</h3>
-        </section>
-        <section class="stat-grid-body">
-            <dl>
-                ${this.renderStatRows()}
-            </dl>
-        </section>
+        <div class="table">
+            <section class="stat-grid-header">
+                <h3>Name</h3>
+                <h3>Scores</h3>
+                <h3>Blocks</h3>
+                <h3>Drops</h3>
+                <h3>Incompletions</h3>
+            </section>
+            <section class="stat-grid-body">
+                <dl>
+                    ${this.renderStatRows()}
+                </dl>
+            </section>
+        </div>
         `
     }
     static styles = [
@@ -106,6 +115,8 @@ export class StatTableElement extends LitElement {
         pageCss.styles,
         statsCss.styles,
         css`
+        .table {
+            margin-bottom: var(--margin);
         `
     ];
 }

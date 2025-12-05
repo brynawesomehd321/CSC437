@@ -40,9 +40,9 @@ const teamsService = new import_team_svc.default();
 userRouter.get("/", (_, res) => {
   userService.index().then((data) => res.json(data)).catch((err) => res.status(500).send(err));
 });
-userRouter.get("/:userId", (req, res) => {
-  const { userId } = req.params;
-  userService.getUserById(Number(userId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+userRouter.get("/:userid", (req, res) => {
+  const { userid } = req.params;
+  userService.getUserById(Number(userid)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
 userRouter.get("/email/:email", (req, res) => {
   const { email } = req.params;
@@ -52,13 +52,13 @@ userRouter.post("/", (req, res) => {
   const newUser = req.body;
   userService.createUser(newUser).then((data) => res.status(201).json(data)).catch((err) => res.status(500).send(err));
 });
-userRouter.put("/:userId", (req, res) => {
+userRouter.put("/:userid", (req, res) => {
   const updatedUser = req.body;
-  const { userId } = req.params;
-  userService.updateUser(updatedUser, Number(userId)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
+  const { userid } = req.params;
+  userService.updateUser(updatedUser, Number(userid)).then((data) => res.json(data)).catch((err) => res.status(404).send(err));
 });
-userRouter.delete("/:userId", (req, res) => {
-  const { userId } = req.params;
-  userService.removeUser(Number(userId)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+userRouter.delete("/:userid", (req, res) => {
+  const { userid } = req.params;
+  userService.removeUser(Number(userid)).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
 var userRouter_default = userRouter;

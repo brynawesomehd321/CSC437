@@ -68,7 +68,7 @@ export async function openDatabase() {
     const createPlayersTableSql = `
         CREATE TABLE IF NOT EXISTS players (
             playerId INTEGER PRIMARY KEY AUTOINCREMENT,
-            playerName TEXT UNIQUE NOT NULL,
+            playerName TEXT NOT NULL,
             playerNumber INTEGER NOT NULL,
             teamId INTEGER NOT NULL,
             FOREIGN KEY (teamId) REFERENCES teams(teamId)

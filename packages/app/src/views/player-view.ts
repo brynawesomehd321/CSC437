@@ -3,7 +3,7 @@ import reset from "../styles/reset.css";
 import page from "../styles/page.css";
 import { property, state } from "lit/decorators.js";
 import { Stat, Player, Game } from "server/models";
-import { View } from "@calpoly/mustang";
+import { View, History } from "@calpoly/mustang";
 import { Model } from "../model";
 import { Msg } from "../messages";
 
@@ -28,6 +28,9 @@ export class PlayerViewElement extends View<Model, Msg> {
     get schedule(): Array<Game> {
         return this.model.schedule ?? [];
     }
+
+    @state()
+    _error?: Error;
 
     constructor() {
         super("stats:model");
@@ -55,6 +58,22 @@ export class PlayerViewElement extends View<Model, Msg> {
         }
     }
 
+    handleDeletePlayer = () => {
+        if (!this.playerId) return;
+        this.dispatchMessage([
+            "player/delete"
+            , { playerId: this.playerId }
+            , {
+                onSuccess: () =>
+                    History.dispatch(this, "history/navigate", {
+                        href: `/app/team/${this.teamId}/roster`
+                    }),
+                onFailure: (error: Error) =>
+                    this._error = error
+            }
+        ]);
+    }
+
     render() {
         return html`
             <div class="subheader">
@@ -74,6 +93,7 @@ export class PlayerViewElement extends View<Model, Msg> {
                     <h3>Number:</h3>
                     <p>${this.player ? this.player.playerNumber : "Loading..."}</p>
                 </div>
+                <button class="delete-button" @click=${this.handleDeletePlayer}>Delete Player</button>
             </section>
             <div class="subheader">
                 <h2>
@@ -92,15 +112,10 @@ export class PlayerViewElement extends View<Model, Msg> {
                     Stats Per Game
                 </h2>
             </div>
-            <a href="/app/team/${this.teamId}">
-                <h3>
-                    <svg class="icon">
-                        <use href="/icons/base.svg#icon-team" />
-                    </svg>
-                    Back to Team
-                </h3>
-            </a>
             <player-stat-table .stats=${this.playerStats} .games=${this.schedule} team-id=${this.teamId}></player-stat-table>
+            <div class="centered-content">
+                <back-button team-id=${this.teamId}></back-button>
+            </div>
         `
     }
     static styles = [
@@ -109,7 +124,7 @@ export class PlayerViewElement extends View<Model, Msg> {
         css`
         .player-profile {
             display: grid; 
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             justify-items: center;
             margin: var(--margin);
             padding: var(--padding);

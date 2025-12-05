@@ -24,6 +24,7 @@ import { ScheduleTableElement } from "./components/scheduleTable";
 import { GameViewElement } from "./views/game-view";
 import { UserViewElement } from "./views/user-view";
 import { PlayerViewElement } from "./views/player-view";
+import { BackButtonElement } from "./components/backButton";
 
 const routes = [
     {
@@ -104,6 +105,7 @@ define({
     "total-stat-block": TotalStatBlockElement,
     "stat-table": StatTableElement,
     "schedule-table": ScheduleTableElement,
+    "back-button": BackButtonElement,
     "mu-switch": class AppSwitch extends Switch.Element {
         constructor() {
             super(routes, "stats:history", "stats:auth");

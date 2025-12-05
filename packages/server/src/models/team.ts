@@ -1,5 +1,5 @@
 export interface Team {
-    teamId: number;
+    teamId?: number;
     teamName: string;
-    email: number; //foreign key
+    email: string; //foreign key
 }

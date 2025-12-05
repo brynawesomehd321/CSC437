@@ -55,7 +55,7 @@ async function openDatabase() {
   });
   const createUsersTableSql = `
         CREATE TABLE IF NOT EXISTS users (
-            userId INTEGER PRIMARY KEY AUTOINCREMENT,
+            userid INTEGER PRIMARY KEY AUTOINCREMENT,
             fullName TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             FOREIGN KEY (email) REFERENCES credentials(email)

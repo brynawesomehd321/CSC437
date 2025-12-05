@@ -1,10 +1,10 @@
-import { html } from "lit";
+import { html, css } from "lit";
 import reset from "../styles/reset.css";
 import page from "../styles/page.css";
 import { state } from "lit/decorators.js";
 import { Msg } from "../messages";
 import { Model } from "../model";
-import { Observer, Auth } from "@calpoly/mustang";
+import { Observer, Auth, History, Form } from "@calpoly/mustang";
 import { View } from "@calpoly/mustang";
 import { Team } from "server/models";
 
@@ -44,21 +44,54 @@ export class HomeViewElement extends View<Model, Msg> {
         });
     }
 
+    handleSubmit(event: Form.SubmitEvent<Array<Team>>) {
+        if (!this._user?.username) return;
+
+        const newTeam: Team = {
+            teamName: event.detail.teamName,
+            email: this._user.username
+        };
+        this.dispatchMessage([
+            "team/save",
+            { team: newTeam },
+            {
+                onSuccess: () =>
+                History.dispatch(this, "history/navigate", {
+                    href: `/`
+                }),
+                onFailure: (error: Error) =>
+                    console.log("ERROR:", error)
+            }
+        ]);
+    }
+
     render() {
         return html`
             <div class="subheader">
                 <h1>My Teams</h1>
-                <label class="checkbox" onchange="toggleDarkMode(event.target, event.target.checked)">
-                    <input type="checkbox" autocomplete="off"/>
-                    Dark mode
-                </label>
             </div>
             <card-grid .cards=${this.teams} dataType="teams"></card-grid>
+            <div class="subheader">
+                <h2>Add a team</h2>
+            </div>
+            <div class="centered-content">
+                <mu-form
+                    .init=${{}}
+                    @mu-form:submit=${this.handleSubmit} class="form">
+                    <label>
+                        Team Name:
+                        <input name="teamName" placeholder="Enter team name"/>
+                    </label>
+                </mu-form>
+            </div>
         `;
     }
 
     static styles = [
         reset.styles,
         page.styles,
+        css`
+
+        `
     ];
 }

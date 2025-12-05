@@ -5,17 +5,77 @@
   <script type="module">
     import { define, Auth } from "@calpoly/mustang";
     import { LoginFormElement } from "/src/components/login-form";
+    import { SignUpFormElement } from "/src/components/signup-form";
 
     define({
       "mu-auth": Auth.Provider,
-      "login-form": LoginFormElement
+      "login-form": LoginFormElement,
+      "sign-up-form": SignUpFormElement,
     });
   </script>
+<style>
+    body.page {
+      font-family: sans-serif;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 2rem;
+      width: 320px;
+      background: #f9f9f9;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1rem;
+      cursor: pointer;
+    }
+
+    .tab {
+      padding: 0.5rem 1rem;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      border-color: #0078d7;
+      font-weight: bold;
+    }
+
+    .form-container {
+      display: none;
+    }
+
+    .form-container.active {
+      display: block;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+    }
+  </style>
 </head>
 <body class="page">
   <mu-auth>
-    <h2>User Login</h2>
-      <main class="card">
+    <h2>User Authentication</h2>
+    <main class="card">
+      <div class="tabs">
+        <div class="tab active" data-tab="login">Login</div>
+        <div class="tab" data-tab="signup">Sign Up</div>
+      </div>
+
+      <div id="login" class="form-container active">
         <login-form api="/auth/login">
           <label>
             <span>Email:</span>
@@ -26,7 +86,29 @@
             <input type="password" name="password" />
           </label>
         </login-form>
-      </main>
-    </mu-auth>
-  </body>
+      </div>
+
+      <div id="signup" class="form-container">
+        <sign-up-form api="/auth/register"></sign-up-form>
+      </div>
+    </main>
+  </mu-auth>
+
+  <script>
+    const tabs = document.querySelectorAll(".tab");
+    const forms = document.querySelectorAll(".form-container");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        // Remove active classes
+        tabs.forEach(t => t.classList.remove("active"));
+        forms.forEach(f => f.classList.remove("active"));
+
+        // Add active to selected
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+</body>
 </html>

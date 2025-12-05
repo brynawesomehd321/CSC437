@@ -4,6 +4,88 @@ import { Game, Player, Team, User, Stat } from "server/models";
 export type Msg =
   | ["user/request", { email: string }]
   | ["user/teams/request", { email: string }]
+  | [
+      "user/save",
+      {
+        userid: number,
+        user: User
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [
+      "team/save", 
+      {
+        team: Team;
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [
+      "team/delete", 
+      {
+        teamId: number;
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [
+      "stat/delete", 
+      {
+        statId: number;
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [
+      "game/delete", 
+      {
+        gameId: number;
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [
+      "player/delete", 
+      {
+        playerId: number;
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [
+      "stat/save", 
+      {
+        stat: Stat;
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]  
+  | [
+      "player/save", 
+      {
+        player: Player;
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]  
+  | [
+      "game/save", 
+      {
+        game: Game;
+      }, {
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]  
   | ["team/request", { teamId: number }]
   | ["team/roster/request", { teamId: number }]
   | ["team/schedule/request", { teamId: number }]
@@ -26,4 +108,5 @@ export type Msg =
   | ["game/load", { game: Game }]
   | ["player/stats/load", { playerStats: Array<Stat> }]
   | ["player/load", { player: Player }]
+  | ["stats/load", { playerStats: Array<Stat>, gameStats: Array<Stat>, teamStats: Array<Stat> }]
   ;
